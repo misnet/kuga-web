@@ -1,0 +1,202 @@
+/**
+ * 系统管理--菜单列表界面
+ * @author Donny
+ *
+ */
+import React, { PureComponent } from 'react'
+import { connect } from 'dva'
+import {
+  Table,
+  Card,
+  Form,
+  Popconfirm,
+  Button,
+  Divider,
+  Icon,
+} from 'antd'
+
+import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import MenuModal from './MenuModal'
+import styles from './MenuList.less'
+
+const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',')
+
+@connect(({menu, loading}) => ({
+  menu,
+  createLoading: loading.effects['menu/create'],
+  updateLoading: loading.effects['menu/update'],
+  loading: loading.effects['menu/menuList'],
+}))
+export default class TableList extends PureComponent {
+
+  componentDidMount () {
+    const {dispatch} = this.props
+    dispatch({
+      type: 'menu/menuList',
+    })
+  }
+
+  /**
+   * 关闭弹窗
+   */
+  onCancelModal = () => {
+    this.props.dispatch({
+      type: 'menu/hideModal',
+    })
+  }
+  /**
+   * 点新建时
+   */
+  onCreate = () => {
+    this.props.dispatch({
+      type: 'menu/showModal',
+      payload: {
+        modalType: 'create',
+      },
+    })
+  }
+  /**
+   * 点编辑菜单时
+   */
+  onEdit = (record) => {
+    this.props.dispatch({
+      type: 'menu/showModal',
+      payload: {
+        modalType: 'update',
+        editMenu: record,
+      },
+    })
+  }
+  /**
+   * 删除用户
+   * @param record
+   */
+  onDelete = (record) => {
+    this.props.dispatch({
+      type: 'menu/deleteMenu',
+      payload: {
+        id: record.id,
+      },
+    })
+  }
+
+  /**
+   * 点提交新建/编辑表单的OK键
+   * @param e
+   */
+  onSubmitForm = (values) => {
+    console.log('values', values)
+    const {menu: {modalType}} = this.props
+    this.props.dispatch({
+      type: `menu/${modalType}`,
+      payload: values,
+    })
+
+  }
+  handleTableChange = (pagination, filtersArg, sorter) => {
+    const {dispatch} = this.props
+    const {formValues} = this.state
+
+    const filters = Object.keys(filtersArg).reduce((obj, key) => {
+      const newObj = {...obj}
+      newObj[key] = getValue(filtersArg[key])
+      return newObj
+    }, {})
+
+    const params = {
+      ...formValues,
+      ...filters,
+    }
+    dispatch({
+      type: 'menu/menuList',
+      payload: params,
+    })
+  }
+
+  render () {
+    const {loading, createLoading, updateLoading, menu: {data, modalVisible, modalType, editMenu}} = this.props
+
+    const modalProps = {
+      item: modalType === 'create' ? {} : editMenu,
+      visible: modalVisible,
+      title: modalType === 'create' ? '新建菜单' : '编辑菜单',
+      onOk: this.onSubmitForm,
+      menuList: data,
+      confirmLoading: modalType === 'create' ? createLoading : updateLoading,
+      onCancel: () => this.onCancelModal(),
+    }
+    // 表列定义
+    const columns = [
+      {
+        title: '菜单名',
+        dataIndex: 'name',
+        key: 'name',
+        render: (text, record) => (
+          <span>
+                    <Icon type={record.className}/>
+                    <span>{record.name}</span>
+                </span>
+        ),
+      }, {
+        title: 'ID',
+        dataIndex: 'id',
+        key: 'id',
+      }, {
+        title: '链接',
+        key: 'link',
+        render: (text, record) => (record.url),
+      }, {
+        title: '显示',
+        dataIndex: 'display',
+        key: 'display',
+        render: (text, record) => (record.display === '1' ? '显示' : '隐藏'),
+      },
+      {
+        title: '排序权重',
+        key: 'sortByWeight',
+        render: (text, record) => (record.sortByWeight),
+      },
+      {
+        title: '操作',
+        key: 'action',
+        render: (text, record) => (
+          <span>
+              <a onClick={this.onEdit.bind(this, record)}>编辑</a>
+              <Divider type="vertical" />
+              <Popconfirm
+                title='菜单删除时，子菜单也会被一起删除，确定要删除这个菜单?'
+                placement="left"
+                onConfirm={this.onDelete.bind(this, record)}
+              >
+                <a>删除</a>
+              </Popconfirm>
+            </span>
+        ),
+      },
+    ]
+
+    return (
+      <PageHeaderLayout title="菜单管理">
+        <Card bordered={false}>
+          <div className={styles.tableList}>
+
+            <div className={styles.tableListOperator}>
+              <Button icon="plus" type="primary" onClick={this.onCreate}>
+                新建
+              </Button>
+            </div>
+            <Table
+              rowKey={record => record['id']}
+
+              loading={loading}
+              dataSource={data}
+              columns={columns}
+              onChange={this.handleTableChange}
+            />
+          </div>
+        </Card>
+        {modalVisible && <MenuModal {...modalProps} />}
+      </PageHeaderLayout>
+    )
+  }
+}

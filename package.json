@@ -1,0 +1,53 @@
+{
+  "private": true,
+  "scripts": {
+    "start": "cross-env APP_TYPE=site umi dev",
+    "build": "umi build",
+    "test": "umi test",
+    "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
+    "lint": "eslint --ext .js src mock tests",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "antd-theme-webpack-plugin": "^1.1.9",
+    "babel-eslint": "^9.0.0",
+    "cross-env": "^5.2.0",
+    "eslint": "^5.4.0",
+    "eslint-config-umi": "^0.1.5",
+    "eslint-plugin-flowtype": "^2.50.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^5.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "husky": "^0.14.3",
+    "lint-staged": "^7.2.2",
+    "umi": "^2.1.2",
+    "umi-plugin-react": "^1.1.1"
+  },
+  "dependencies": {
+    "antd": "^3.10.9",
+    "classnames": "^2.2.6",
+    "lodash": "^4.17.10",
+    "lodash-decorators": "^6.0.0",
+    "md5": "^2.2.1",
+    "memoize-one": "^4.0.3",
+    "moment": "^2.19.1",
+    "omit.js": "^1.0.0",
+    "path-to-regexp": "^2.4.0",
+    "prop-types": "^15.6.2",
+    "rc-animate": "^2.6.0",
+    "rc-queue-anim": "^1.6.8",
+    "react-container-query": "^0.11.0",
+    "react-copy-to-clipboard": "^5.0.1",
+    "react-document-title": "^2.0.3",
+    "react-media": "^1.8.0"
+  },
+  "lint-staged": {
+    "*.{js,jsx}": [
+      "eslint --fix",
+      "git add"
+    ]
+  },
+  "engines": {
+    "node": ">=8.0.0"
+  }
+}
