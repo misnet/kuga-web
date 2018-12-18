@@ -1,4 +1,9 @@
 export default {
+    'form.new':'Add',
+    'form.edit':'Edit',
+    'form.remove':'Remove',
+    'form.more':'More',
+
   'form.captcha': 'Get Captcha',
   'form.captcha.second': 'sec',
   'form.optional': ' (optional) ',

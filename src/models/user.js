@@ -66,6 +66,7 @@ export default {
     //取当前登录的用户
     * fetchCurrent (_, {call, put}) {
       const response = yield call(queryCurrent);
+      console.log('response',response);
       yield put({
         type: 'saveCurrentUser',
         payload: response,

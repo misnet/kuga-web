@@ -10,7 +10,7 @@ import { Table, Card, Button, Divider, Modal } from 'antd';
 import { Link } from 'dva/router';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
 import RoleModal from './RoleModal';
-import styles from './RoleList.less';
+import styles from '../../common.less';
 import DICT from '../../../dict';
 import DropdownMenu from './RoleDropdownMenu';
 

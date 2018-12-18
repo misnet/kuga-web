@@ -17,7 +17,7 @@ import {
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 import MenuModal from './MenuModal'
-import styles from './MenuList.less'
+import styles from '../common.less'
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',')
 

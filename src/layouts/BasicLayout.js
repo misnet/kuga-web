@@ -137,13 +137,14 @@ class BasicLayout extends React.PureComponent {
         const currRouterData = this.matchParamsPath(pathname);
 
         if (!currRouterData) {
-            return 'Ant Design Pro';
+            return 'Depoga demo';
         }
-        const pageName = formatMessage({
-            id: currRouterData.locale || currRouterData.name,
-            defaultMessage: currRouterData.name,
-        });
-        return `${pageName} - Depoga`;
+        //TODO:取消页面title的翻译
+        // const pageName = formatMessage({
+        //     id: currRouterData.locale || currRouterData.name,
+        //     defaultMessage: currRouterData.name,
+        // });
+        return `${currRouterData.name} - Depoga`;
     };
 
     getLayoutStyle = () => {

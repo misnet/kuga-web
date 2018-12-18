@@ -24,8 +24,10 @@
     "umi-plugin-react": "^1.1.1"
   },
   "dependencies": {
+    "@babel/runtime": "^7.2.0",
     "antd": "^3.10.9",
     "classnames": "^2.2.6",
+    "immutability-helper": "^2.9.0",
     "lodash": "^4.17.10",
     "lodash-decorators": "^6.0.0",
     "md5": "^2.2.1",
@@ -38,6 +40,8 @@
     "rc-queue-anim": "^1.6.8",
     "react-container-query": "^0.11.0",
     "react-copy-to-clipboard": "^5.0.1",
+    "react-dnd": "^7.0.2",
+    "react-dnd-html5-backend": "^7.0.2",
     "react-document-title": "^2.0.3",
     "react-media": "^1.8.0"
   },

@@ -56,18 +56,22 @@ export default {
         PRODUCT_PROPKEY_LIST:'product.propkey.list',
         // 新建属性
         PRODUCT_PROPKEY_CREATE:'product.propkey.create',
+        // 取得属性
+        PRODUCT_PROPKEY_GET:'product.propkey.get',
         // 修改属性
         PRODUCT_PROPKEY_UPDATE:'product.propkey.update',
         // 删除属性
         PRODUCT_PROPKEY_REMOVE:'product.propkey.remove',
-        // 属性值列表
-        PRODUCT_PROPVALUE_LIST:'product.propvalue.list',
-        // 新建属性值
-        PRODUCT_PROPVALUE_CREATE:'product.propvalue.create',
-        // 修改属性值
-        PRODUCT_PROPVALUE_UPDATE:'product.propvalue.update',
-        // 删除属性值
-        PRODUCT_PROPVALUE_REMOVE:'product.propvalue.remove'
+        // 属性集列表
+        PRODUCT_PROPSET_LIST:'product.propset.list',
+        // 新建属性集
+        PRODUCT_PROPSET_CREATE:'product.propset.create',
+        // 修改属性集
+        PRODUCT_PROPSET_UPDATE:'product.propset.update',
+        // 删除属性集
+        PRODUCT_PROPSET_REMOVE:'product.propset.remove',
+        // 取属性集
+        PRODUCT_PROPSET_GET:'product.propset.get',
 
     },
 };

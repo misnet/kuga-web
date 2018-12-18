@@ -1,10 +1,9 @@
-import analysis from './en-US/analysis';
+import system from './en-US/system';
 import exception from './en-US/exception';
-import form from './en-US/form';
 import globalHeader from './en-US/globalHeader';
 import login from './en-US/login';
 import menu from './en-US/menu';
-import monitor from './en-US/monitor';
+import form from './en-US/form';
 import result from './en-US/result';
 import settingDrawer from './en-US/settingDrawer';
 import settings from './en-US/settings';
@@ -19,15 +18,14 @@ export default {
   'app.forms.basic.title': 'Basic form',
   'app.forms.basic.description':
     'Form pages are used to collect or verify information to users, and basic forms are common in scenarios where there are fewer data items.',
-  ...analysis,
+  ...system,
   ...exception,
-  ...form,
   ...globalHeader,
   ...login,
   ...menu,
-  ...monitor,
   ...result,
   ...settingDrawer,
   ...settings,
   ...pwa,
+    ...form,
 };

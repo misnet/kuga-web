@@ -64,6 +64,7 @@ export default {
                 // add the parameters in the url
                 urlParams.searchParams.set('redirect', pathname);
                 window.history.replaceState(null, 'login', urlParams.href);
+                clearUserProfile();
             } finally {
                 yield put({
                     type: 'changeLoginStatus',

@@ -74,6 +74,16 @@ const menuData = [
         icon:'bars',
         path:'product-catalog'
       },
+        {
+            name:'属性管理',
+            icon:'bars',
+            path:'props'
+        },
+        {
+            name:'属性集管理',
+            icon:'appstore',
+            path:'propsets'
+        }
 
     ],
   },
@@ -106,6 +116,9 @@ function formatter(data, parentPath = '/', parentAuthority) {
  */
 function filterMenu(serverMenuData,menuData){
   let newData = [];
+  if(!serverMenuData){
+    return newData;
+  }
   menuData.map(item=>{
     if(item.children){
       let children = filterMenu(serverMenuData,item.children)

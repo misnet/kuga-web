@@ -10,12 +10,19 @@ export default [
     {
         path:"/",
         component:"../layouts/BasicLayout",
+        Routes: ['src/pages/Authorized'],
         routes:[
             {path:"/", redirect: "/dashboard/workplace"},
             {path:"/dashboard/workplace",component:"./Dashboard/Workplace"},
             {path:"/sys/userlist",component:"./Sys/UserList"},
             {path:"/sys/menulist",component:"./Sys/MenuList"},
             {path:"/sys/product-catalog",component:'./Sys/Product/Catalog'},
+            {path:"/sys/props/edit-propkey",component:'./Sys/Product/EditPropKey'},
+            {path:"/sys/props/edit-propkey/:id",component:'./Sys/Product/EditPropKey'},
+            {path:"/sys/props",component:'./Sys/Product/PropKeyList'},
+            {path:"/sys/propsets",component:'./Sys/Product/PropSetList'},
+            {path:"/sys/propsets/edit",component:'./Sys/Product/EditPropSet'},
+            {path:"/sys/propsets/edit/:id",component:'./Sys/Product/EditPropSet'},
             {
                 path:"/sys/rolelist",
                 routes:[

@@ -2,8 +2,8 @@
  * 商品属性
  * @author Donny
  */
-import { createProp,updateProp,listProps,removeProp } from '../../../../services/product';
-
+import { createProp,updateProp,listProps,removeProp, getProp } from '../../../../services/product';
+import _ from 'lodash';
 export default {
     namespace: 'propKey',
     state: {
@@ -16,14 +16,10 @@ export default {
         editProp: {
             id:0,
             name: '',
-            catalogId: '',
             isColor: 0,
-            isSaleProp:0,
-            isApplyCode:0,
-            usedForSearch:0,
             formType:"0",
-            sortWeight:0,
-
+            summary:'',
+            valueList:[]
         },
         currentCatalog:null,
         selectedPropkeyId:0,
@@ -33,33 +29,39 @@ export default {
 
     effects: {
         //创建
-        * create ({payload}, {call, put}) {
-            const response = yield call(createProp, payload);
+        * create ({payload}, {call, put, select}) {
+            const oldEditProp = yield select(({propKey})=>propKey.editProp);
+            const newPayload = {
+                ...payload,
+                valueList:JSON.stringify(oldEditProp.valueList)
+            };
+            const response = yield call(createProp, newPayload);
             if (response.status == 0) {
-                yield put({
-                    type: 'hidePropModal',
-                });
-
                 //提交成功
                 yield put({
                     type: 'listProps',
-                    payload: {catalogId:0},
+                    payload: {page:1},
                 });
             }
         },
         //更新
-        * update({payload},{call,put}) {
-            const response = yield call(updateProp, payload);
+        * update({payload,callback},{call,select}) {
+            const oldEditProp = yield select(({propKey})=>propKey.editProp);
+            const newPayload = {
+                ...payload,
+                valueList:JSON.stringify(oldEditProp.valueList)
+            };
+            const response = yield call(updateProp, newPayload);
             if (response.status == 0) {
-                yield put({
-                    type: 'hidePropModal',
-                });
 
                 //提交成功
-                yield put({
-                    type: 'listProps',
-                    payload: {catalogId:0},
-                });
+                // yield put({
+                //     type: 'listProps',
+                //     payload: {catalogId:0},
+                // });
+                if(typeof callback =='function'){
+                    callback(response);
+                }
             }
         },
         //查询列表
@@ -77,6 +79,23 @@ export default {
                 payload: data,
             });
         },
+        //取得某个属性
+        * getProp({payload},{call,put}){
+            const response = yield call(getProp, payload);
+            let data = {};
+            if (response['status'] == 0) {
+                data = response['data'];
+            } else {
+                data = [];
+            }
+            yield put({
+                type: 'setEditProp',
+                payload: {
+                    propkey:data
+                },
+            });
+        },
+
         *selectProp({ payload }, { put }) {
             yield put({
                 type: 'setPropkeyId',
@@ -99,6 +118,42 @@ export default {
         },
     },
     reducers: {
+        setEditProp(state,{payload}){
+            return {
+                ...state,
+                editProp:payload.propkey
+            }
+        },
+        fakeRemovePropValue(state,{payload}){
+            let newEditProp       = {...state.editProp};
+            _.remove(newEditProp.valueList,(n)=>{
+                return n.id==payload.id
+            });
+            console.log('newEditPro',newEditProp);
+            return {
+                ...state,
+                editProp:newEditProp
+            };
+        },
+        /**
+         * 加空记录
+         * @param state
+         * @param payload
+         * @returns {{editProp: {}}}
+         */
+        addEmptyPropValue(state,{payload}){
+            const newEditProp = {...state.editProp};
+            newEditProp.valueList.unshift({
+                propvalue:'',
+                colorHexValue:'',
+                code:'',
+                id:payload.id
+            });
+            return {
+                ...state,
+                editProp:newEditProp
+            };
+        },
         save(state, action) {
             return {
                 ...state,

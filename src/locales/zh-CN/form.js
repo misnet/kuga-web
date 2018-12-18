@@ -1,4 +1,9 @@
 export default {
+    'form.new':'新增',
+    'form.edit':'编辑',
+    'form.remove':'删除',
+    'form.more':'更多',
+
   'form.captcha': '获取验证码',
   'form.captcha.second': '秒',
   'form.optional': '（选填）',

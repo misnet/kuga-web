@@ -15,7 +15,7 @@ import {
 } from 'antd'
 import PageHeaderLayout from '../../layouts/PageHeaderLayout'
 import UserModal from './UserModal';
-import styles from './UserList.less'
+import styles from '../common.less'
 
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',')
 

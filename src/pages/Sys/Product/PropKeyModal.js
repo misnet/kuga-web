@@ -44,9 +44,7 @@ const PropModal = ({
     }
     return (
         <Modal {...modalOpts}>
-            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 15 }} label="类目">
-                {currentCatalog.catalogName}
-            </FormItem>
+
             <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 15 }} label="属性名称">
                 {getFieldDecorator('name', {
                     initialValue: item.name,
@@ -58,7 +56,6 @@ const PropModal = ({
                     ],
                 })(<Input placeholder="请输入" maxLength="50" />)}
             </FormItem>
-
             <FormItem
                 labelCol={{span: 8}}
                 wrapperCol={{span: 15}}
@@ -85,40 +82,23 @@ const PropModal = ({
                 )}
 
             </FormItem>
-            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 15 }} label="排序权重">
-                {getFieldDecorator('sortWeight', {
-                    initialValue: item.sortWeight,
+            <FormItem labelCol={{ span: 8 }} wrapperCol={{ span: 15 }} label="属性描述">
+                {getFieldDecorator('summary', {
+                    initialValue: item.summary,
                     rules: [
                         {
-                            required: true,
-                            message: '请输入权重值，默认为0',
+                            required: false,
+                            message: '请输入属性描述',
                         },
                     ],
-                })(<InputNumber placeholder="请输入" maxLength="10" />)}
+                })(<Input placeholder="请输入" maxLength="50" />)}
             </FormItem>
             <Row>
-                <Col span={6}>{getFieldDecorator('isSaleProp', {
-                    initialValue:parseInt(item.isSaleProp)
-                })(
-                    <Checkbox value={1} defaultChecked={item.isSaleProp > 0} name="isSaleProp">销售属性</Checkbox>
-                )}
-                </Col>
-                <Col span={6}>{getFieldDecorator('isColor', {
+                <Col span={8}></Col>
+                <Col span={16}>{getFieldDecorator('isColor', {
                     initialValue:parseInt(item.isColor)
                 })(
                     <Checkbox value={1}  defaultChecked={item.isColor > 0} name="isColor">是否是颜色</Checkbox>
-                )}
-                </Col>
-                <Col span={6}>{getFieldDecorator('isApplyCode', {
-                    initialValue:parseInt(item.isApplyCode)
-                })(
-                    <Checkbox value={1}  defaultChecked={item.isApplyCode > 0} name="isApplyCode">应用于编码</Checkbox>
-                )}
-                </Col>
-                <Col span={6}>{getFieldDecorator('usedForSearch', {
-                    initialValue:parseInt(item.usedForSearch)
-                })(
-                    <Checkbox value={1}  defaultChecked={item.usedForSearch > 0} name="usedForSearch">应用于搜索</Checkbox>
                 )}
                 </Col>
             </Row>

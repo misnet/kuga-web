@@ -102,51 +102,74 @@ export async function removeProp(params) {
         body: params,
     });
 }
+/**
+ * 取得属性
+ * @param params
+ * @returns {Promise<Object>}
+ */
+export async function getProp(params) {
+    return request(APILIST.BACKEND.PRODUCT_PROPKEY_GET, {
+        method: 'POST',
+        body: params,
+    });
+}
 
 
 /**
- * 创建属性值
+ * 创建属性集
  * @param params
  * @returns {Promise.<Object>}
  */
-export async function createPropValue(params) {
-    return request(APILIST.BACKEND.PRODUCT_PROPVALUE_CREATE, {
+export async function createPropSet(params) {
+    return request(APILIST.BACKEND.PRODUCT_PROPSET_CREATE, {
         method: 'POST',
         body: params,
     });
 }
 
 /**
- * 改属性值
+ * 改属性集
  * @param params
  * @returns {Promise<Object>}
  */
-export async function updatePropValue(params){
-    return request(APILIST.BACKEND.PRODUCT_PROPVALUE_UPDATE, {
+export async function updatePropSet(params){
+    return request(APILIST.BACKEND.PRODUCT_PROPSET_UPDATE, {
         method: 'POST',
         body: params,
     });
 }
 
 /**
- * 属性值列表
+ * 属性集列表
  * @param params
  * @returns {Promise<Object>}
  */
-export async function listPropValues(params) {
-    return request(APILIST.BACKEND.PRODUCT_PROPVALUE_LIST, {
+export async function listPropSet(params) {
+    return request(APILIST.BACKEND.PRODUCT_PROPSET_LIST, {
         method: 'POST',
         body: params,
     });
 }
 
 /**
- * 删除属性值
+ * 删除属性集
  * @param params
  * @returns {Promise<Object>}
  */
-export async function removePropValue(params) {
-    return request(APILIST.BACKEND.PRODUCT_PROPVALUE_REMOVE, {
+export async function removePropSet(params) {
+    return request(APILIST.BACKEND.PRODUCT_PROPSET_REMOVE, {
+        method: 'POST',
+        body: params,
+    });
+}
+
+/**
+ * 取得属性集
+ * @param params
+ * @returns {Promise<Object>}
+ */
+export async function getPropSet(params) {
+    return request(APILIST.BACKEND.PRODUCT_PROPSET_GET, {
         method: 'POST',
         body: params,
     });
