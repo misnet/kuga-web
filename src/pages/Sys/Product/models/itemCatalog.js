@@ -12,13 +12,11 @@ export default {
         editCatalogData: {
             name: '',
             code: '',
-            parentId: 0,
+            parentId: "0",
             id:0,
             sortWeight:0
         },
-        catalogModalType: 'create',
-        catalogModalVisible: false,
-        selectedCatalogId: null,
+        catalogModalType: 'create'
     },
 
     effects: {
@@ -27,7 +25,7 @@ export default {
             const response = yield call(createItemCatalog, payload);
             if (response.status == 0) {
                 yield put({
-                    type: 'hideCatalogModal',
+                    type: 'clearCurrentCatalogData',
                 });
 
                 //提交成功
@@ -41,9 +39,10 @@ export default {
         * update({payload},{call,put}) {
             const response = yield call(updateItemCatalog, payload);
             if (response.status == 0) {
+
                 yield put({
-                    type: 'hideCatalogModal',
-                });
+                    type:'clearCurrentCatalogData'
+                })
 
                 //提交成功
                 yield put({
@@ -61,15 +60,6 @@ export default {
             } else {
                 data = [];
             }
-            // const currentData = yield select(({ itemCatalog }) => itemCatalog.data);
-            // if(currentData.length)
-            // currentData.forEach(e=>{
-            //     if(e.id==payload.parentId){
-            //         e.children = data;
-            //     }
-            // });
-            //console.log('currentData',currentData);
-
             yield put({
                 type: 'save',
                 payload: data,
@@ -80,7 +70,7 @@ export default {
         },
         *selectCatalog({ payload }, { put }) {
             yield put({
-                type: 'setCatalogId',
+                type: 'setCurrentCatalog',
                 payload,
             });
         },
@@ -95,37 +85,37 @@ export default {
                         type: 'listCatalog',
                         payload: {parentId:0,loadTree:true},
                     });
+                    yield put({
+                        type:'clearCurrentCatalogData'
+                    })
                 }
             }
         },
     },
     reducers: {
+        clearCurrentCatalogData(state,action){
+            return {
+                ...state,
+                editCatalogData: {
+                    name: '',
+                    code: '',
+                    parentId: "0",
+                    id:0,
+                    sortWeight:0
+                }
+            };
+        },
         save(state, action) {
             return {
                 ...state,
                 data: action.payload,
             };
         },
-        setCatalogId(state, { payload }) {
+        setCurrentCatalog(state, { payload }) {
             return {
                 ...state,
-                selectedCatalogId: payload.catalogId,
                 editCatalogData: payload.catalog
             };
-        },
-        // 隐藏弹出窗
-        hideCatalogModal(state) {
-            return {
-                ...state,
-                catalogModalVisible: false,
-            };
-        },
-        showCatalogModal(state, { payload }) {
-            return {
-                ...state,
-                catalogModalType: payload.modalType,
-                catalogModalVisible: true,
-            };
-        },
+        }
     },
 };

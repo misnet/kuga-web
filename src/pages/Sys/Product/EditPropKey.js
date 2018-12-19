@@ -433,7 +433,7 @@ export default class EditPropKey extends PureComponent {
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 
-                        <div className={styles.tableListOperator}>
+                        <div className={styles.navToolbar}>
                             <Button icon="arrow-left" type="default" onClick={this.onBack}>
                                 返回
                             </Button>

@@ -157,7 +157,7 @@ export default class PropNameList extends PureComponent {
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 
-                        <div className={styles.tableListOperator}>
+                        <div className={styles.navToolbar}>
                             <Button icon="plus" type="primary" onClick={this.onCreatePropKey}>
                                 {formatMessage({
                                     id:'sys.attrs.create'

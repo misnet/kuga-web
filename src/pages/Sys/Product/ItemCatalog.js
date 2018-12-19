@@ -3,38 +3,28 @@
  * @author Donny
  *
  */
-import React, { PureComponent } from 'react';
+import React, { PureComponent,Fragment } from 'react';
 import { connect } from 'dva';
-import { routerRedux } from 'dva/router';
 import {
     Select,
     notification,
-    Table,
     Card,
     Button,
     Form,
     Tree,
     Layout,
-    Row,
-    Col,
-    Modal, Input, InputNumber,
+    Modal, Input, InputNumber, Divider,
 } from 'antd';
-import { Link } from 'dva/router';
-import QueueAnim from 'rc-queue-anim';
 
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
-import styles from './Catalog.less';
-import PropNameList from './PropNameList';
-import PropValueList from './PropValueList';
-import CatalogModal from './CatalogModal';
+import styles from './ItemCatalog.less';
 
 const { Header, Footer, Sider, Content } = Layout;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 
-@connect(({ itemCatalog, propKey }) => ({
-    itemCatalog,
-    propKey
+@connect(({ itemCatalog }) => ({
+    itemCatalog
 }))
 @Form.create()
 export default class Catalog extends PureComponent {
@@ -54,62 +44,16 @@ export default class Catalog extends PureComponent {
             },
         })
     }
-    showPropValueList = (propkey) => {
-        this.setState({
-            hidePropValueList: false,
-            propkey
-        });
-    };
-    hideValueList = () => {
-        this.setState({
-            hidePropValueList: true,
-        });
-    };
-    onCreateCatalogModal = () => {
-        this.props.dispatch({
-            type: 'itemCatalog/showCatalogModal',
-            payload: {
-                modalType: 'create',
-            },
-        });
-    };
-    onCancelCatalogModal = () => {
-        this.props.dispatch({
-            type: 'itemCatalog/hideCatalogModal',
-        });
-    };
-    onEditCatalogModal = () => {
-        if (this.props.itemCatalog.selectedCatalogId) {
-            this.props.dispatch({
-                type: 'itemCatalog/showCatalogModal',
-                payload: {
-                    modalType: 'update',
-                },
-            });
-        } else {
-            notification.error({
-                message: '错误提示',
-                description: '请选择要修改的类目',
-            });
-        }
-    };
     onSelectCatalog = (keys, e) => {
         this.props.dispatch({
             type: 'itemCatalog/selectCatalog',
             payload: {
-                catalogId: e.node.props.dataRef.id,
                 catalog:e.node.props.dataRef
             },
         });
-        this.props.dispatch({
-            type:'propKey/listProps',
-            payload:{
-                catalogId:e.node.props.dataRef.id
-            }
-        })
     };
     onDeleteCatalog = () => {
-        if (this.props.itemCatalog.selectedCatalogId) {
+        if (this.props.itemCatalog.editCatalogData.id) {
             Modal.confirm({
                 title: '提示',
                 content: '是否要删除选中的类目？',
@@ -117,7 +61,7 @@ export default class Catalog extends PureComponent {
                     this.props.dispatch({
                         type: 'itemCatalog/removeCatalog',
                         payload: {
-                            id:this.props.itemCatalog.selectedCatalogId
+                            id:this.props.itemCatalog.editCatalogData.id
                         }
                     });
                 },
@@ -134,14 +78,34 @@ export default class Catalog extends PureComponent {
      * 点提交新建/编辑类目的OK键
      * @param values
      */
-    onSubmitCatalogForm = (values) => {
-        const {itemCatalog: {catalogModalType,selectedCatalogId}} = this.props;
+    onSaveCatalog = () => {
+        const {form, itemCatalog: {editCatalogData}} = this.props;
+        const catalogModalType = editCatalogData.id?'update':'create';
+        form.validateFields((errors)=>{
+            if(!errors){
+
+                this.props.dispatch({
+                    type: `itemCatalog/${catalogModalType}`,
+                    payload: {
+                        id:editCatalogData.id,
+                        ...form.getFieldsValue()
+                    },
+                })
+            }
+        })
+    }
+    onSwitchToNew = ()=>{
         this.props.dispatch({
-            type: `itemCatalog/${catalogModalType}`,
-            payload: {
-                id:selectedCatalogId,
-                ...values
-            },
+            type:'itemCatalog/selectCatalog',
+            payload:{
+                catalog:{
+                    name: '',
+                    code: '',
+                    parentId: "0",
+                    id:0,
+                    sortWeight:0
+                }
+            }
         })
     }
     onLoadItemCatalogTree = (node)=>new Promise((resolve)=>{
@@ -175,18 +139,9 @@ export default class Catalog extends PureComponent {
     });
     render() {
         const {
-            itemCatalog: { catalogModalVisible, catalogModalType, editCatalogData, data},
+            itemCatalog: { catalogModalVisible, editCatalogData, data},
             form:{getFieldDecorator}
         } = this.props;
-        const modalProps = {
-            item: catalogModalType === 'create' ? {} : editCatalogData,
-            visible: catalogModalVisible,
-            title: catalogModalType === 'create' ? '新建类目' : '编辑类目',
-            onOk: this.onSubmitCatalogForm,
-            catalogList:data,
-            //confirmLoading: modalType === 'create' ? createLoading : updateLoading,
-            onCancel: () => this.onCancelCatalogModal(),
-        };
 
         const renderOption = (cList,deep=0) =>{
             return cList.map((opt, e) => {
@@ -203,35 +158,41 @@ export default class Catalog extends PureComponent {
             })
         }
 
-            return (
-            <PageHeaderLayout title="类目属性">
+        return (
+            <PageHeaderLayout title={'类目管理'}>
+                <Card bordered={false}>
                 <Layout>
                     <Sider className={styles.sidebar}>
                         <div className={styles.title}>类目</div>
-                        <div className={styles.toolbar}>
-                            <Button type="default" size="small" onClick={this.onCreateCatalogModal}>
-                                新增
-                            </Button>
-                            <Button type="default" size="small" onClick={this.onEditCatalogModal}>
-                                修改
-                            </Button>
-                            <Button type="danger" size="small" onClick={this.onDeleteCatalog}>
-                                删除
-                            </Button>
-                        </div>
-                        {catalogModalVisible && <CatalogModal {...modalProps} />}
                         <div>
+                            {!data||data.length==0?'暂未创建类目':(
                             <Tree
                                 showLine
                                 defaultExpandedKeys = {[]}
                                 onSelect = {this.onSelectCatalog}
                             >
                                 {this.renderTreeNodes(data)}
-                            </Tree>
+                            </Tree>)}
 
                         </div>
                     </Sider>
                     <Content className={styles.propNameList}>
+                        <div className={styles.navToolbar}>
+                            {editCatalogData.id?(
+                                <Fragment>
+                                    <Button icon="delete" type="default" onClick={this.onDeleteCatalog}>
+                                        删除
+                                    </Button>
+                                    <Button icon="undo" type="primary" onClick={this.onSwitchToNew}>
+                                        切换到新增
+                                    </Button>
+                                </Fragment>
+                                ):null}
+                            <Button icon="save" type="primary" onClick={this.onSaveCatalog}>
+                                {editCatalogData.id?'保存修改':'保存新增'}
+                            </Button>
+                        </div>
+                        <Divider />
                         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类目名称">
                             {getFieldDecorator('name', {
                                 initialValue: editCatalogData.name,
@@ -283,6 +244,7 @@ export default class Catalog extends PureComponent {
                         </FormItem>
                     </Content>
                 </Layout>
+                </Card>
             </PageHeaderLayout>
         );
     }

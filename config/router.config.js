@@ -16,7 +16,7 @@ export default [
             {path:"/dashboard/workplace",component:"./Dashboard/Workplace"},
             {path:"/sys/userlist",component:"./Sys/UserList"},
             {path:"/sys/menulist",component:"./Sys/MenuList"},
-            {path:"/sys/product-catalog",component:'./Sys/Product/Catalog'},
+            {path:"/sys/product-catalog",component:'./Sys/Product/ItemCatalog'},
             {path:"/sys/props/edit-propkey",component:'./Sys/Product/EditPropKey'},
             {path:"/sys/props/edit-propkey/:id",component:'./Sys/Product/EditPropKey'},
             {path:"/sys/props",component:'./Sys/Product/PropKeyList'},

@@ -315,13 +315,23 @@ export default class EditPropKey extends PureComponent {
      * 根据选中的属性，添加到属性集合
      */
     onAppendPropKey=()=>{
-        const {form,propSet:{selectedPropKey}} = this.props;
+        const {form,propSet:{selectedPropKey,currentSet}} = this.props;
         console.log('selectedPropKey',selectedPropKey);
         if(!selectedPropKey || !selectedPropKey.id || parseInt(selectedPropKey.id)<=0){
             notification.warn({
                 message: '温馨提示',
                 description: '请先选择要追加的属性',
             })
+        }
+        const s = _.find(currentSet.propkeyList,(e)=>{
+            return e.propkeyId == selectedPropKey.id;
+        });
+        if(typeof s !='undefined'){
+            notification.warn({
+                message:'温馨提示',
+                description:'属性已存在，不可重复添加'
+            });
+            return;
         }
         this.props.dispatch({
             type:'propSet/appendPropKey',
@@ -386,7 +396,7 @@ export default class EditPropKey extends PureComponent {
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 
-                        <div className={styles.tableListOperator}>
+                        <div className={styles.navToolbar}>
                             <Button icon="arrow-left" type="default" onClick={this.onBack}>
                                 返回
                             </Button>
