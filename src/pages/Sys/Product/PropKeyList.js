@@ -124,7 +124,7 @@ export default class PropNameList extends PureComponent {
         } = this.props;
 
         return (
-            <PageHeaderLayout title={formatMessage({id:'sys.attrs.manage'})}>
+            <PageHeaderLayout title={formatMessage({id:'sys.attrs.manage'})} >
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 

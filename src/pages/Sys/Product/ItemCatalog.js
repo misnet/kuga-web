@@ -23,8 +23,9 @@ const { Header, Footer, Sider, Content } = Layout;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 
-@connect(({ itemCatalog }) => ({
-    itemCatalog
+@connect(({ itemCatalog,propSet }) => ({
+    itemCatalog,
+    propSet
 }))
 @Form.create()
 export default class Catalog extends PureComponent {
@@ -42,6 +43,9 @@ export default class Catalog extends PureComponent {
                 parentId: 0,
                 loadTree: true
             },
+        })
+        dispatch({
+            type:'propSet/listPropSets'
         })
     }
     onSelectCatalog = (keys, e) => {
@@ -90,7 +94,8 @@ export default class Catalog extends PureComponent {
                         id:editCatalogData.id,
                         ...form.getFieldsValue()
                     },
-                })
+                });
+                this.props.form.resetFields();
             }
         })
     }
@@ -100,7 +105,6 @@ export default class Catalog extends PureComponent {
             payload:{
                 catalog:{
                     name: '',
-                    code: '',
                     parentId: "0",
                     id:0,
                     sortWeight:0
@@ -140,9 +144,10 @@ export default class Catalog extends PureComponent {
     render() {
         const {
             itemCatalog: { catalogModalVisible, editCatalogData, data},
+            propSet,
             form:{getFieldDecorator}
         } = this.props;
-
+        const propSetList = propSet.data.list!==undefined?propSet.data.list:[];
         const renderOption = (cList,deep=0) =>{
             return cList.map((opt, e) => {
                 let optionComponent = [];
@@ -157,7 +162,7 @@ export default class Catalog extends PureComponent {
                 return optionComponent;
             })
         }
-
+        console.log('editCatalogData',editCatalogData);
         return (
             <PageHeaderLayout title={'类目管理'}>
                 <Card bordered={false}>
@@ -171,7 +176,7 @@ export default class Catalog extends PureComponent {
                                 defaultExpandedKeys = {[]}
                                 onSelect = {this.onSelectCatalog}
                             >
-                                {this.renderTreeNodes(data)}
+                                {this.renderTreeNodes(!data||data.length==0?[]:data)}
                             </Tree>)}
 
                         </div>
@@ -204,17 +209,6 @@ export default class Catalog extends PureComponent {
                                 ],
                             })(<Input placeholder="请输入" maxLength="50" />)}
                         </FormItem>
-                        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="类目编码">
-                            {getFieldDecorator('code', {
-                                initialValue: editCatalogData.code,
-                                rules: [
-                                    {
-                                        required: true,
-                                        message: '请输入类目编码',
-                                    },
-                                ],
-                            })(<Input placeholder="请输入" maxLength="10" />)}
-                        </FormItem>
                         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级类目">
                             {getFieldDecorator('parentId', {
                                 initialValue: editCatalogData.parentId,
@@ -233,7 +227,7 @@ export default class Catalog extends PureComponent {
                         </FormItem>
                         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="排序权重">
                             {getFieldDecorator('sortWeight', {
-                                initialValue: editCatalogData.sortWeight,
+                                initialValue: parseInt(editCatalogData.sortWeight),
                                 rules: [
                                     {
                                         required: true,
@@ -241,6 +235,20 @@ export default class Catalog extends PureComponent {
                                     },
                                 ],
                             })(<InputNumber placeholder="请输入" maxLength="10" />)}
+                        </FormItem>
+                        <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用的属性集">
+                            {getFieldDecorator('propsetId', {
+                                initialValue: editCatalogData.propsetId
+                            })(
+                                <Select style={{ width: '100%' }}>
+                                    <Select.Option value="0">--请选择属性集--</Select.Option>
+                                    {propSetList.map((opt)=>{
+                                        let optList = [];
+                                        optList.push(<Select.Option value={opt.id}>{opt.name}</Select.Option>);
+                                        return optList;
+                                    })}
+                                </Select>
+                            )}
                         </FormItem>
                     </Content>
                 </Layout>

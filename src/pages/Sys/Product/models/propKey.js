@@ -29,7 +29,7 @@ export default {
 
     effects: {
         //创建
-        * create ({payload}, {call, put, select}) {
+        * create ({payload,callback}, {call, put, select}) {
             const oldEditProp = yield select(({propKey})=>propKey.editProp);
             const newPayload = {
                 ...payload,
@@ -38,10 +38,13 @@ export default {
             const response = yield call(createProp, newPayload);
             if (response.status == 0) {
                 //提交成功
-                yield put({
-                    type: 'listProps',
-                    payload: {page:1},
-                });
+                // yield put({
+                //     type: 'listProps',
+                //     payload: {page:1},
+                // });
+                if(typeof callback =='function'){
+                    callback(response);
+                }
             }
         },
         //更新

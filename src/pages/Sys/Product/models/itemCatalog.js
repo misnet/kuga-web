@@ -11,9 +11,9 @@ export default {
         data: [],
         editCatalogData: {
             name: '',
-            code: '',
             parentId: "0",
             id:0,
+            propsetId:"0",
             sortWeight:0
         },
         catalogModalType: 'create'
@@ -98,9 +98,9 @@ export default {
                 ...state,
                 editCatalogData: {
                     name: '',
-                    code: '',
                     parentId: "0",
                     id:0,
+                    propsetId:"0",
                     sortWeight:0
                 }
             };

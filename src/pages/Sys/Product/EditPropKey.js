@@ -196,6 +196,20 @@ export default class EditPropKey extends PureComponent {
                     })
                 }
             });
+        }else{
+            this.props.dispatch({
+                type:'propKey/setEditProp',
+                payload:{
+                    propkey:{
+                        id:0,
+                        name: '',
+                        isColor: 0,
+                        formType:"0",
+                        summary:'',
+                        valueList:[]
+                    }
+                }
+            })
         }
 
         this.EditableFormRow = ({  ...props }) => (
