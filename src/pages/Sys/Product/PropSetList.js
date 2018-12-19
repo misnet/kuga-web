@@ -8,7 +8,6 @@ import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
 
 import styles from '../../common.less';
-import PropModal from './PropKeyModal';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
 
 const FormItem = Form.Item;

@@ -71,7 +71,7 @@ const menuData = [
       },
       {
         name:'类目属性',
-        icon:'bars',
+        icon:'folder',
         path:'product-catalog'
       },
         {

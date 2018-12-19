@@ -8,12 +8,9 @@ import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
 
 import styles from '../../common.less';
-import PropModal from './PropKeyModal';
 import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
-import MenuModal from "../MenuModal";
 
 @connect(({itemCatalog, propKey, loading}) => ({
-    itemCatalog,
     propKey,
     loading: loading.effects['propKey/listProps'],
 }))
@@ -29,23 +26,6 @@ export default class PropNameList extends PureComponent {
         this.props.dispatch(
             routerRedux.push(`/sys/props/edit-propkey`)
         );
-    };
-    onSubmitPropForm=(values)=>{
-        const {propKey: {propModalType,editProp, currentCatalog}} = this.props;
-        console.log('editCatalogData',currentCatalog);
-        this.props.dispatch({
-            type: `propKey/${propModalType}`,
-            payload: {
-                id:editProp.id,
-                catalogId:currentCatalog.id,
-                ...values
-            },
-        })
-    };
-    onCancelPropModal = () => {
-        this.props.dispatch({
-            type: 'propKey/hidePropModal',
-        });
     };
     /**
      * 选某个属性的相关操作
@@ -140,18 +120,9 @@ export default class PropNameList extends PureComponent {
         ];
         const {
             loading,
-            propKey: { data, propModalVisible, editProp, propModalType, currentCatalog },
-            itemCatalog:{ editCatalogData }
+            propKey: { data}
         } = this.props;
-        const modalProps = {
-            item: propModalType === 'create' ? {} : editProp,
-            visible: propModalVisible,
-            title: propModalType === 'create' ? '新建属性' : '编辑属性',
-            onOk: this.onSubmitPropForm,
-            currentCatalog,
-            onCancel: () => this.onCancelPropModal(),
-        };
-        console.log('editProp',editProp);
+
         return (
             <PageHeaderLayout title={formatMessage({id:'sys.attrs.manage'})}>
                 <Card bordered={false}>
@@ -173,7 +144,6 @@ export default class PropNameList extends PureComponent {
                             loading={loading}/>
                     </div>
                 </Card>
-                {propModalVisible && <PropModal {...modalProps} />}
             </PageHeaderLayout>
         );
     }
