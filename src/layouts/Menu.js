@@ -39,7 +39,7 @@ const menuData = [
         path: 'rolelist',
         hideInMenu: true,
         authority: 'common',
-
+        hideChildrenInMenu:true,
         children:[
           {
             name: '给角色分配菜单权限',

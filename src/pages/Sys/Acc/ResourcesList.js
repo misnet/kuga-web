@@ -9,7 +9,7 @@ import { Card, Table, Button } from 'antd';
 
 import { Link, routerRedux } from 'dva/router';
 import { forEach } from 'lodash';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import styles from './Assign.less';
 
 @connect(({ resources, loading }) => ({
@@ -64,7 +64,7 @@ export default class ResourcesList extends PureComponent {
             },
         ];
         return (
-            <PageHeaderLayout title="权限资源分配">
+            <PageHeaderWrapper title="权限资源分配">
                 <Card bordered={false}>
                     <div className={styles.operatorSection}>
                         <Button icon="arrow-left" onClick={returnBack}>
@@ -78,7 +78,7 @@ export default class ResourcesList extends PureComponent {
                         columns={columns}
                     />
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

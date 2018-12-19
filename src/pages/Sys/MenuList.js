@@ -15,7 +15,7 @@ import {
   Icon,
 } from 'antd'
 
-import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import PageHeaderWrapper from '../../components/PageHeaderWrapper'
 import MenuModal from './MenuModal'
 import styles from '../common.less'
 
@@ -176,7 +176,7 @@ export default class TableList extends PureComponent {
     ]
 
     return (
-      <PageHeaderLayout title="菜单管理">
+      <PageHeaderWrapper title="菜单管理">
         <Card bordered={false}>
           <div className={styles.tableList}>
 
@@ -196,7 +196,7 @@ export default class TableList extends PureComponent {
           </div>
         </Card>
         {modalVisible && <MenuModal {...modalProps} />}
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     )
   }
 }

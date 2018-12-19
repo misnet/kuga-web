@@ -8,7 +8,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Card, Form, Spin, Tree, Button } from 'antd';
 import { union } from 'lodash';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import styles from './Assign.less';
 
 @connect(({ menu, assignMenus, loading }) => ({
@@ -101,7 +101,7 @@ export default class AssignMenuToRole extends PureComponent {
         };
 
         return (
-            <PageHeaderLayout title="分配菜单">
+            <PageHeaderWrapper title="分配菜单">
                 <Card bordered={false}>
                     <div className={styles.operatorSection}>
                         <Button
@@ -135,7 +135,7 @@ export default class AssignMenuToRole extends PureComponent {
                         </Tree>
                     </Spin>
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

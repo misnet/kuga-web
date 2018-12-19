@@ -9,7 +9,7 @@ import { Card, Form, Checkbox, Table, Button } from 'antd';
 import { routerRedux } from 'dva/router';
 import { indexOf, without } from 'lodash';
 
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import styles from './Assign.less';
 
 @connect(({ operations, loading }) => ({
@@ -123,7 +123,7 @@ export default class AssignResToRole extends PureComponent {
             dispatch(routerRedux.push(`/sys/role-res/${params.rid}`));
         };
         return (
-            <PageHeaderLayout title="权限资源分配">
+            <PageHeaderWrapper title="权限资源分配">
                 <Card bordered={false}>
                     <div className={styles.operatorSection}>
                         <Button
@@ -146,7 +146,7 @@ export default class AssignResToRole extends PureComponent {
                         pagination={false}
                     />
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

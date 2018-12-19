@@ -8,7 +8,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { Table, Card, Button, Divider, Modal } from 'antd';
 import { Link } from 'dva/router';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import RoleModal from './RoleModal';
 import styles from '../../common.less';
 import DICT from '../../../dict';
@@ -231,7 +231,7 @@ export default class RoleList extends PureComponent {
         ];
 
         return (
-            <PageHeaderLayout title="角色管理">
+            <PageHeaderWrapper title="角色管理">
                 <Card bordered={false}>
                     <div className={styles.tableList}>
                         <div className={styles.navToolbar}>
@@ -250,7 +250,7 @@ export default class RoleList extends PureComponent {
                     </div>
                 </Card>
                 {modalVisible && <RoleModal {...modalProps} />}
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

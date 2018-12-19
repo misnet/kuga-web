@@ -7,7 +7,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { Card, Form, Spin, Transfer, Button } from 'antd';
 import { routerRedux } from 'dva/router';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import styles from './Assign.less';
 
 @connect(({ assignUsers, loading }) => ({
@@ -51,7 +51,7 @@ export default class AssignUserToRole extends PureComponent {
             dispatch(routerRedux.push('/sys/rolelist/index'));
         };
         return (
-            <PageHeaderLayout title="分配用户">
+            <PageHeaderWrapper title="分配用户">
                 <Card bordered={false}>
                     <div className={styles.operatorSection}>
                         <Button icon="arrow-left" type="primary" onClick={returnBack}>
@@ -70,7 +70,7 @@ export default class AssignUserToRole extends PureComponent {
                         />
                     </Spin>
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

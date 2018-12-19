@@ -22,7 +22,7 @@ import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
 import styles from '../../common.less';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper'
 import DICT from "../../../dict";
 
 const FormItem = Form.Item;
@@ -443,7 +443,7 @@ export default class EditPropKey extends PureComponent {
             };
         });
         return (
-            <PageHeaderLayout title={editProp.id>0?'编辑属性':'创建属性'}>
+            <PageHeaderWrapper title={editProp.id>0?'编辑属性':'创建属性'}>
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 
@@ -541,7 +541,7 @@ export default class EditPropKey extends PureComponent {
                         }
                     </div>
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

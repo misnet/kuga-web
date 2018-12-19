@@ -16,7 +16,7 @@ import {
     Modal, Input, InputNumber, Divider,
 } from 'antd';
 
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout';
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import styles from './ItemCatalog.less';
 
 const { Header, Footer, Sider, Content } = Layout;
@@ -164,7 +164,7 @@ export default class Catalog extends PureComponent {
         }
         console.log('editCatalogData',editCatalogData);
         return (
-            <PageHeaderLayout title={'类目管理'}>
+            <PageHeaderWrapper title={'类目管理'}>
                 <Card bordered={false}>
                 <Layout>
                     <Sider className={styles.sidebar}>
@@ -253,7 +253,7 @@ export default class Catalog extends PureComponent {
                     </Content>
                 </Layout>
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

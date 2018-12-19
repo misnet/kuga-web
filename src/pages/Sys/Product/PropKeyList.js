@@ -8,7 +8,8 @@ import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
 
 import styles from '../../common.less';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
+//import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 
 @connect(({itemCatalog, propKey, loading}) => ({
     propKey,
@@ -124,7 +125,7 @@ export default class PropNameList extends PureComponent {
         } = this.props;
 
         return (
-            <PageHeaderLayout title={formatMessage({id:'sys.attrs.manage'})} >
+            <PageHeaderWrapper title={formatMessage({id:'sys.attrs.manage'})} >
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 
@@ -144,7 +145,7 @@ export default class PropNameList extends PureComponent {
                             loading={loading}/>
                     </div>
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }

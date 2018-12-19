@@ -13,7 +13,7 @@ import {
   Button,
   Divider,
 } from 'antd'
-import PageHeaderLayout from '../../layouts/PageHeaderLayout'
+import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import UserModal from './UserModal';
 import styles from '../common.less'
 
@@ -198,7 +198,7 @@ export default class TableList extends PureComponent {
       editUser,
     };
     return (
-      <PageHeaderLayout title="用户列表">
+      <PageHeaderWrapper title="用户列表">
         <Card bordered={false}>
           <div className={styles.tableList}>
 
@@ -219,7 +219,7 @@ export default class TableList extends PureComponent {
           </div>
         </Card>
         {modalVisible && <UserModal {...ModalProps} />}
-      </PageHeaderLayout>
+      </PageHeaderWrapper>
     );
   }
 }

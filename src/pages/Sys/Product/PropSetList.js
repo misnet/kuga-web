@@ -8,7 +8,7 @@ import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
 
 import styles from '../../common.less';
-import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
+import PageHeaderWrapper from '../../../components/PageHeaderWrapper'
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -155,7 +155,7 @@ export default class PropSetList extends PureComponent {
             propSet: { data }
         } = this.props;
         return (
-            <PageHeaderLayout title={formatMessage({id:'sys.attrset.manage'})}>
+            <PageHeaderWrapper title={formatMessage({id:'sys.attrset.manage'})}>
                 <Card bordered={false}>
                     <div className={styles.tableList}>
 
@@ -175,7 +175,7 @@ export default class PropSetList extends PureComponent {
                             loading={loading}/>
                     </div>
                 </Card>
-            </PageHeaderLayout>
+            </PageHeaderWrapper>
         );
     }
 }
