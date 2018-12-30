@@ -27,7 +27,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',')
   updateLoading: loading.effects['menu/update'],
   loading: loading.effects['menu/menuList'],
 }))
-export default class TableList extends PureComponent {
+class MenuList extends PureComponent {
 
   componentDidMount () {
     const {dispatch} = this.props
@@ -149,7 +149,7 @@ export default class TableList extends PureComponent {
         title: '显示',
         dataIndex: 'display',
         key: 'display',
-        render: (text, record) => (record.display === '1' ? '显示' : '隐藏'),
+        render: (text, record) => (record.display === 1 ? '显示' : '隐藏'),
       },
       {
         title: '排序权重',
@@ -200,3 +200,4 @@ export default class TableList extends PureComponent {
     )
   }
 }
+export default MenuList;

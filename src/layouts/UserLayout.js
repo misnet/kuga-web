@@ -5,7 +5,6 @@ import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 import styles from './UserLayout.less';
 import logo from '@/assets/logo.svg';
-import { getRoutes } from '@/utils/utils';
 
 const links = [
 

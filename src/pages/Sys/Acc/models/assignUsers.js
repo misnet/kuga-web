@@ -31,9 +31,9 @@ export default {
         *list({ payload }, { call, put }) {
             console.log('response========');
             const response = yield call(listUser, payload);
-            console.log('response', response);
+            //console.log('response', response);
             let data = {};
-            if (typeof response['data'] != 'undefined') {
+            if (typeof response['data'] !== 'undefined') {
                 data = response['data'];
             } else {
                 data = {};

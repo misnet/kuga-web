@@ -16,7 +16,7 @@ import styles from './Assign.less';
     resources,
     loading: loading.effects['resources/list'],
 }))
-export default class ResourcesList extends PureComponent {
+class ResourcesList extends PureComponent {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch({
@@ -82,3 +82,4 @@ export default class ResourcesList extends PureComponent {
         );
     }
 }
+export default ResourcesList;

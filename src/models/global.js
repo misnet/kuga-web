@@ -1,14 +1,30 @@
 import { queryNotices } from '@/services/api';
-
+import {queryOssSetting} from '@/services/common';
 export default {
     namespace: 'global',
 
     state: {
         collapsed: false,
         notices: [],
+        ossSetting:{
+            Bucket:{},
+            Credentials:{},
+            RequestId:"",
+            AssumeRoleUser:{}
+        }
     },
 
     effects: {
+        *fetchOssSetting({payload},{call,put}){
+            const responseData = yield call(queryOssSetting);
+            if(responseData.status == 0){
+                yield put({
+                    type:'saveOssSetting',
+                    payload:responseData.data
+                });
+            }
+            console.log('data',responseData.data);
+        },
         *fetchNotices(_, { call, put, select }) {
             const data = yield call(queryNotices);
             yield put({
@@ -68,6 +84,12 @@ export default {
     },
 
     reducers: {
+        saveOssSetting(state,{payload}){
+          return {
+              ...state,
+              ossSetting:payload
+          }  
+        },
         changeLayoutCollapsed(state, { payload }) {
             return {
                 ...state,

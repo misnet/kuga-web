@@ -174,3 +174,24 @@ export async function getPropSet(params) {
         body: params,
     });
 }
+
+/**
+ * 创建产品
+ * @param {*} params 
+ */
+export async function createProduct(params){
+    return request(APILIST.BACKEND.PRODUCT_CREATE, {
+        method: 'POST',
+        body: params,
+    });
+}
+/**
+ * 产品列表
+ * @param {*} params 
+ */
+export async function listProducts(params){
+    return request(APILIST.BACKEND.PRODUCT_LIST, {
+        method: 'POST',
+        body: params,
+    });
+}

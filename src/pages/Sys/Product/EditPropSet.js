@@ -20,6 +20,7 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
+import _ from 'lodash';
 import update from 'immutability-helper';
 import styles from '../../common.less';
 import PageHeaderWrapper from '../../../components/PageHeaderWrapper'
@@ -136,7 +137,7 @@ const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
 }))
 @Form.create()
 @DragDropContext(HTML5Backend)
-export default class EditPropKey extends PureComponent {
+class EditPropKey extends PureComponent {
     constructor(props){
         super(props);
         const params = this.props.match.params;
@@ -326,7 +327,7 @@ export default class EditPropKey extends PureComponent {
         const s = _.find(currentSet.propkeyList,(e)=>{
             return e.propkeyId == selectedPropKey.id;
         });
-        if(typeof s !='undefined'){
+        if(typeof s !=='undefined'){
             notification.warn({
                 message:'温馨提示',
                 description:'属性已存在，不可重复添加'
@@ -441,3 +442,4 @@ export default class EditPropKey extends PureComponent {
         );
     }
 }
+export default  EditPropKey;

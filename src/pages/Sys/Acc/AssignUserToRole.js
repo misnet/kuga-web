@@ -15,7 +15,7 @@ import styles from './Assign.less';
     loading: loading.effects['assignUsers/list'],
 }))
 @Form.create()
-export default class AssignUserToRole extends PureComponent {
+class AssignUserToRole extends PureComponent {
     componentDidMount() {
         const { dispatch, match: { params } } = this.props;
         dispatch({
@@ -74,3 +74,4 @@ export default class AssignUserToRole extends PureComponent {
         );
     }
 }
+export default AssignUserToRole;

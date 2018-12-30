@@ -19,7 +19,7 @@ import {
 import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import styles from './ItemCatalog.less';
 
-const { Header, Footer, Sider, Content } = Layout;
+const {  Sider, Content } = Layout;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 
@@ -28,7 +28,7 @@ const FormItem = Form.Item;
     propSet
 }))
 @Form.create()
-export default class Catalog extends PureComponent {
+class Catalog extends PureComponent {
     constructor(props) {
         super(props);
         this.state = {
@@ -257,3 +257,4 @@ export default class Catalog extends PureComponent {
         );
     }
 }
+export default Catalog;

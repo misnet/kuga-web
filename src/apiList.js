@@ -4,6 +4,9 @@
  *
  */
 export default {
+    COMMON:{
+        OSSETTING:'common.osssetting'
+    },
     BACKEND: {
         // 用户登陆
         USER_LOGIN: 'console.user.login',
@@ -72,6 +75,9 @@ export default {
         PRODUCT_PROPSET_REMOVE:'product.propset.remove',
         // 取属性集
         PRODUCT_PROPSET_GET:'product.propset.get',
-
+        // 创建产品
+        PRODUCT_CREATE:'product.basic.create',
+        // 产品列表
+        PRODUCT_LIST: 'product.basic.list'
     },
 };

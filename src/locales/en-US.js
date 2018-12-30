@@ -8,7 +8,7 @@ import result from './en-US/result';
 import settingDrawer from './en-US/settingDrawer';
 import settings from './en-US/settings';
 import pwa from './en-US/pwa';
-
+import product from './en-US/product';
 export default {
   'navBar.lang': 'Languages',
   'layout.user.link.help': 'Help',
@@ -28,4 +28,5 @@ export default {
   ...settings,
   ...pwa,
     ...form,
+    ...product
 };

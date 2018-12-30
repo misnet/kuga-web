@@ -26,7 +26,7 @@ const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',')
   createLoading :loading.effects['user/create'],
 }))
 @Form.create()
-export default class TableList extends PureComponent {
+class UserListPage extends PureComponent {
   componentDidMount () {
     const {dispatch} = this.props
     dispatch({
@@ -223,3 +223,4 @@ export default class TableList extends PureComponent {
     );
   }
 }
+export default  UserListPage;

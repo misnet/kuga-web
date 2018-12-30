@@ -26,7 +26,7 @@ const getValue = obj =>
     createLoading: loading.effects['role/create'],
     updateLoading: loading.effects['role/update'],
 }))
-export default class RoleList extends PureComponent {
+class RoleList extends PureComponent {
     componentDidMount() {
         const { dispatch } = this.props;
         dispatch({
@@ -254,3 +254,4 @@ export default class RoleList extends PureComponent {
         );
     }
 }
+export default RoleList;

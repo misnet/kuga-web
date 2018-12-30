@@ -91,6 +91,8 @@ const menuModal = ({
                 wrapperCol={{span: 15}}
                 label="显示/隐藏"
             >{getFieldDecorator('display', {
+                initialValue:item.display>0,
+                valuePropName:'checked'
             })(
               <Checkbox defaultChecked={item.display > 0} name="display">显示</Checkbox>
             )}

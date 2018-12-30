@@ -3,7 +3,7 @@
  * @author Donny
  *
  */
-import { Form, Input, Select, Modal, Switch, Checkbox, InputNumber, Radio } from 'antd';
+import { Form, Input, Modal, Checkbox, InputNumber, Radio } from 'antd';
 import React from 'react';
 import PropTypes from 'prop-types';
 

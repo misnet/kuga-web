@@ -25,5 +25,6 @@ export default {
     }
     return newOption;
   },
-  SYS_NAME:'PMIT Platform'
+  SYS_NAME:'PMIT Platform',
+  IMG_HOST:'http://localhost:8000'
 };

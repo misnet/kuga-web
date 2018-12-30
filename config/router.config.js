@@ -42,6 +42,21 @@ export default [
                         path:'/sys/rolelist/assign-role-res/:rid/:rcode/:rname',component:'./Sys/Acc/AssignResToRole'
                     }
                 ]
+            },
+            {
+                path:"/product/edit", component: "./Product/EditProduct"
+            },
+            {
+                path:"/product/edit/:id/:propsetId", component: "./Product/EditProduct"
+            },
+            {
+                path:"/product/edit/:id", component: "./Product/EditProduct"
+            },
+            {
+                path:"/product/select-catalog", component: "./Product/SelectCatalog"
+            },
+            {
+                path:"/product/list", component: "./Product/ListProducts"
             }
         ]
     }

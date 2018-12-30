@@ -14,6 +14,23 @@ const menuData = [
       },
     ],
   },
+    {
+      name:'商品管理',
+      icon:'appstore',
+      path:'product',
+        children:[
+            {
+              name:'创建商品',
+               path:'edit',
+               icon:'plus'
+            },
+            {
+              name:'商品列表',
+               path:'list',
+               icon:'list'
+            }
+        ]
+    },
   {
     name: '系统管理',
     icon: 'setting',

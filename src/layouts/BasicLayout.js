@@ -66,7 +66,7 @@ const getRedirect = item => {
     }
 };
 const { menuList } = getUserProfile();
-console.log('menuList', menuList);
+//console.log('menuList', menuList);
 const menuData = getMenuData(menuList);
 menuData.forEach(getRedirect);
 
@@ -182,6 +182,7 @@ class BasicLayout extends React.PureComponent {
     // };
 
     render() {
+
         const {
             navTheme,
             layout: PropsLayout,
@@ -191,7 +192,8 @@ class BasicLayout extends React.PureComponent {
         } = this.props;
         const isTop = PropsLayout === 'topmenu';
         const routerConfig = this.matchParamsPath(pathname);
-        console.log('routerConfig',routerConfig);
+        //console.log('routerConfig',routerConfig);
+
         const layout = (
             <Layout>
                 {isTop && !isMobile ? null : (
@@ -223,6 +225,7 @@ class BasicLayout extends React.PureComponent {
                             authority={()=>hasPermission('root')}
                             noMatch={<Exception403 />}
                         >
+
                             {children}
                         </Authorized>
                     </Content>
@@ -234,6 +237,7 @@ class BasicLayout extends React.PureComponent {
             <React.Fragment>
                 <DocumentTitle title={this.getPageTitle(pathname)}>
                     <ContainerQuery query={query}>
+
                         {params => (
                             <Context.Provider value={this.getContext()}>
                                 <div className={classNames(params)}>{layout}</div>

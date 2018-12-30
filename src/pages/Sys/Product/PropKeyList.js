@@ -15,7 +15,7 @@ import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
     propKey,
     loading: loading.effects['propKey/listProps'],
 }))
-export default class PropNameList extends PureComponent {
+class PropNameList extends PureComponent {
     constructor(props){
         super(props);
         const {dispatch} = this.props
@@ -149,3 +149,4 @@ export default class PropNameList extends PureComponent {
         );
     }
 }
+export default  PropNameList;

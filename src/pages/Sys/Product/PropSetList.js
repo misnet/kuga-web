@@ -2,7 +2,7 @@
  * 属性名称列表，如颜色、尺码、型号等
  */
 import React, { PureComponent } from 'react';
-import {Divider, Table, Button, Icon, notification, Dropdown, Menu, Popconfirm, Modal, Card, Form, Input} from 'antd';
+import {Table, Button, Icon, Dropdown, Menu, Modal, Card, Form, Input} from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
@@ -63,7 +63,7 @@ class EditableCell extends React.Component {
     propSet,
     loading: loading.effects['propSet/listPropSets'],
 }))
-export default class PropSetList extends PureComponent {
+class PropSetList extends PureComponent {
     constructor(props){
         super(props);
         const {dispatch} = this.props
@@ -179,3 +179,4 @@ export default class PropSetList extends PureComponent {
         );
     }
 }
+export default  PropSetList;

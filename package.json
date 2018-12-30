@@ -5,8 +5,7 @@
     "build": "umi build",
     "test": "umi test",
     "site": "npm run presite && cross-env APP_TYPE=site npm run build && firebase deploy && npm run docker:push",
-    "lint": "eslint --ext .js src mock tests",
-    "precommit": "lint-staged"
+    "lint": "eslint --ext .js src mock tests"
   },
   "devDependencies": {
     "antd-theme-webpack-plugin": "^1.1.9",
@@ -20,14 +19,19 @@
     "eslint-plugin-react": "^7.11.1",
     "husky": "^0.14.3",
     "lint-staged": "^7.2.2",
-    "umi": "^2.1.2",
-    "umi-plugin-react": "^1.1.1"
+    "umi": "^2.2.8",
+    "umi-plugin-react": "^1.2.3"
   },
   "dependencies": {
     "@babel/runtime": "^7.2.0",
-    "antd": "^3.10.9",
+    "@ckeditor/ckeditor5-build-classic": "^11.2.0",
+    "@ckeditor/ckeditor5-react": "^1.1.0",
+    "antd": "^3.11.6",
+    "braft-editor": "^2.1.35",
+    "braft-extensions": "^0.0.13",
     "classnames": "^2.2.6",
     "immutability-helper": "^2.9.0",
+    "install": "^0.12.2",
     "lodash": "^4.17.10",
     "lodash-decorators": "^6.0.0",
     "md5": "^2.2.1",

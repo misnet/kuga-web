@@ -179,7 +179,7 @@ const DragableBodyRow = DropTarget('row', rowTarget, (connect, monitor) => ({
 }))
 @Form.create()
 @DragDropContext(HTML5Backend)
-export default class EditPropKey extends PureComponent {
+class EditPropKey extends PureComponent {
     constructor(props){
         super(props);
         const params = this.props.match.params;
@@ -192,7 +192,8 @@ export default class EditPropKey extends PureComponent {
             }).then(()=>{
                 if(this.props.propKey.editProp){
                     this.setState({
-                        formType:this.props.propKey.editProp.formType
+                        formType:this.props.propKey.editProp.formType,
+                        isColor:this.props.propKey.editProp.isColor>0
                     })
                 }
             });
@@ -410,6 +411,7 @@ export default class EditPropKey extends PureComponent {
             }
         });
     };
+
     render() {
         const {
             form: { getFieldDecorator, validateFields, getFieldsValue },
@@ -512,7 +514,7 @@ export default class EditPropKey extends PureComponent {
                                     initialValue:parseInt(editProp.isColor)>0,
                                     valuePropName:'checked',
                                 })(
-                                    <Checkbox onChange={this.isColor} defaultChecked={editProp.isColor > 0} name="isColor">是否是颜色</Checkbox>
+                                    <Checkbox onChange={this.isColor}  name="isColor">是否是颜色</Checkbox>
                                 )}
                                 </Col>
                             </Row>
@@ -545,3 +547,4 @@ export default class EditPropKey extends PureComponent {
         );
     }
 }
+export default EditPropKey;

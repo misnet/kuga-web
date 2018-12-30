@@ -18,7 +18,7 @@ import styles from './Assign.less';
     saveLoading: loading.effects['operations/assign'],
 }))
 @Form.create()
-export default class AssignResToRole extends PureComponent {
+class AssignResToRole extends PureComponent {
     state = {
         indeterminate: false,
         checkAll: false,
@@ -150,3 +150,4 @@ export default class AssignResToRole extends PureComponent {
         );
     }
 }
+export default AssignResToRole;

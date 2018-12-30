@@ -1,4 +1,6 @@
-import moment from 'moment';
+
+import imageNotAvailable from '@/assets/image_not_available.png';
+import _ from 'lodash';
 /**
  * 对json对象按key进行排序，需要lodash程序支持
  */
@@ -13,161 +15,183 @@ export function sortKeysBy(obj, comparator) {
   return newObj;
 }
 
-export function fixedZero(val) {
-  return val * 1 < 10 ? `0${val}` : val;
-}
-export function getTimeDistance(type) {
-  const now = new Date();
-  const oneDay = 1000 * 60 * 60 * 24;
-
-  if (type === 'today') {
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-    return [moment(now), moment(now.getTime() + (oneDay - 1000))];
-  }
-
-  if (type === 'week') {
-    let day = now.getDay();
-    now.setHours(0);
-    now.setMinutes(0);
-    now.setSeconds(0);
-
-    if (day === 0) {
-      day = 6;
-    } else {
-      day -= 1;
-    }
-
-    const beginTime = now.getTime() - day * oneDay;
-
-    return [moment(beginTime), moment(beginTime + (7 * oneDay - 1000))];
-  }
-
-  if (type === 'month') {
-    const year = now.getFullYear();
-    const month = now.getMonth();
-    const nextDate = moment(now).add(1, 'months');
-    const nextYear = nextDate.year();
-    const nextMonth = nextDate.month();
-
-    return [
-      moment(`${year}-${fixedZero(month + 1)}-01 00:00:00`),
-      moment(moment(`${nextYear}-${fixedZero(nextMonth + 1)}-01 00:00:00`).valueOf() - 1000),
-    ];
-  }
-
-  if (type === 'year') {
-    const year = now.getFullYear();
-
-    return [moment(`${year}-01-01 00:00:00`), moment(`${year}-12-31 23:59:59`)];
-  }
-}
-
-export function getPlainNode(nodeList, parentPath = '') {
-  const arr = [];
-  nodeList.forEach(node => {
-    const item = node;
-    item.path = `${parentPath}/${item.path || ''}`.replace(/\/+/g, '/');
-    item.exact = true;
-    if (item.children && !item.component) {
-      arr.push(...getPlainNode(item.children, item.path));
-    } else {
-      if (item.children && item.component) {
-        item.exact = false;
-      }
-      arr.push(item);
-    }
-  });
-  return arr;
-}
-
-export function digitUppercase(n) {
-  const fraction = ['角', '分'];
-  const digit = ['零', '壹', '贰', '叁', '肆', '伍', '陆', '柒', '捌', '玖'];
-  const unit = [['元', '万', '亿'], ['', '拾', '佰', '仟']];
-  let num = Math.abs(n);
-  let s = '';
-  fraction.forEach((item, index) => {
-    s += (digit[Math.floor(num * 10 * 10 ** index) % 10] + item).replace(/零./, '');
-  });
-  s = s || '整';
-  num = Math.floor(num);
-  for (let i = 0; i < unit[0].length && num > 0; i += 1) {
-    let p = '';
-    for (let j = 0; j < unit[1].length && num > 0; j += 1) {
-      p = digit[num % 10] + unit[1][j] + p;
-      num = Math.floor(num / 10);
-    }
-    s = p.replace(/(零.)*零$/, '').replace(/^$/, '零') + unit[0][i] + s;
-  }
-
-  return s
-    .replace(/(零.)*零元/, '元')
-    .replace(/(零.)+/g, '零')
-    .replace(/^整$/, '零元整');
-}
-
-function getRelation(str1, str2) {
-  if (str1 === str2) {
-    console.warn('Two path are equal!'); // eslint-disable-line
-  }
-  const arr1 = str1.split('/');
-  const arr2 = str2.split('/');
-  if (arr2.every((item, index) => item === arr1[index])) {
-    return 1;
-  } else if (arr1.every((item, index) => item === arr2[index])) {
-    return 2;
-  }
-  return 3;
-}
-
-function getRenderArr(routes) {
-  let renderArr = [];
-  renderArr.push(routes[0]);
-  for (let i = 1; i < routes.length; i += 1) {
-    let isAdd = false;
-    // 是否包含
-    isAdd = renderArr.every(item => getRelation(item, routes[i]) === 3);
-    // 去重
-    renderArr = renderArr.filter(item => getRelation(item, routes[i]) !== 1);
-    if (isAdd) {
-      renderArr.push(routes[i]);
-    }
-  }
-  return renderArr;
-}
-
 /**
- * Get router routing configuration
- * { path:{name,...param}}=>Array<{name,path ...param}>
- * @param {string} path
- * @param {routerData} routerData
+ * 是否是网址
+ * @param {} path 
  */
-export function getRoutes(path, routerData) {
-  let routes = Object.keys(routerData).filter(
-    routePath => routePath.indexOf(path) === 0 && routePath !== path
-  );
-  // Replace path to '' eg. path='user' /user/name => name
-  routes = routes.map(item => item.replace(path, ''));
-  // Get the route to be rendered to remove the deep rendering
-  const renderArr = getRenderArr(routes);
-  // Conversion and stitching parameters
-  const renderRoutes = renderArr.map(item => {
-    const exact = !routes.some(route => route !== item && getRelation(route, item) === 1);
-    return {
-      exact,
-      ...routerData[`${path}${item}`],
-      key: `${path}${item}`,
-      path: `${path}${item}`,
-    };
-  });
-  return renderRoutes;
-}
-
-/* eslint no-useless-escape:0 */
-const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
-
 export function isUrl(path) {
+  /* eslint no-useless-escape:0 */
+  const reg = /(((^https?:(?:\/\/)?)(?:[-;:&=\+\$,\w]+@)?[A-Za-z0-9.-]+|(?:www.|[-;:&=\+\$,\w]+@)[A-Za-z0-9.-]+)((?:\/[\+~%\/.\w-_]*)?\??(?:[-\+=&;%@.\w_]*)#?(?:[\w]*))?)$/g;
   return reg.test(path);
+}
+/**
+ * AliOSS 上传
+ * @param {} option 
+ */
+export function ossUpload(option={}){
+  let {ossSetting,file,targetPath,objectName,onFailure,onSuccess,onProgress} = option;
+  if(!ossSetting  || !file){
+    throw new Error('上传参数不齐全');
+  }
+  if(!targetPath){
+    targetPath = '';
+  }
+  //自动生成名称
+  if(!objectName && file.name){
+    const fileExtension = file.name.split('.').pop().toLowerCase();
+    objectName = generateUUID()+'.'+fileExtension;
+  }
+  try{
+    const ossClient = new window.OSS.Wrapper({
+        accessKeyId: ossSetting.Credentials.AccessKeyId,
+        accessKeySecret: ossSetting.Credentials.AccessKeySecret,
+        stsToken: ossSetting.Credentials.SecurityToken,
+        region: ossSetting.Bucket.endpoint.replace('.aliyuncs.com',''),
+        bucket: ossSetting.Bucket.name,
+    });
+    return new Promise((resolve, reject) => {
+        const targetName = (targetPath + objectName).replace('//','/');
+        ossClient.multipartUpload(targetName,file,{progress:onProgress}).then(data=>{
+            if(typeof onSuccess  === 'function'){
+              let newData = {...data};
+              newData.url = ossSetting.Bucket.hostUrl + '/' + targetName;
+              onSuccess(newData);
+            }
+        }).catch(error=>{
+            if(typeof onFailure ==='function'){
+                onFailure(error);
+            }
+        })
+    });
+  }catch(e){
+     if(typeof onFailure==='function'){
+         onFailure(e);
+     }
+  }
+}
+export function generateUUID(){
+    var d = new Date().getTime();
+    var uuid = 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+        var r = (d + Math.random()*16)%16 | 0;
+        d = Math.floor(d/16);
+        return (c=='x' ? r : (r&0x3|0x8)).toString(16);
+    });
+    return uuid;
+};
+/**
+ * Get the DPR of screen
+ */
+export function getDPR() {
+  var dpr;
+  if (window.devicePixelRatio !== undefined) {
+      dpr = window.devicePixelRatio;
+  } else {
+      dpr = 1;
+  }
+  return dpr;
+};
+/**
+ * Screen ViewPort
+ */
+export function getViewPort() {
+  var w = parseInt(window.innerWidth);
+  var h = parseInt(window.innerHeight);
+  var rw = w * getDPR();
+  var rh = h * getDPR();
+  var dpr = getDPR();
+  var s = {
+      width: w,
+      height: h,
+      realWidth: rw,
+      realHeight: rh,
+      dpr: dpr
+  };
+  return s;
+};
+/**
+ * Parse a URL
+ * @param {*} url 
+ */
+export function parseURL (url) {
+  var a = document.createElement('a');
+  a.href = url;
+  return {
+      source: url,
+      protocol: a.protocol.replace(':',''),
+      host: a.hostname,
+      port: a.port,
+      query: a.search,
+      params: (function(){
+          var ret = {},
+              seg = a.search.replace(/^\?/,'').split('&'),
+              len = seg.length, i = 0, s;
+          for (;i<len;i++) {
+              if (!seg[i]) { continue; }
+              s = seg[i].split('=');
+              ret[s[0]] = s[1];
+          }
+          return ret;
+      })(),
+      file: (a.pathname.match(/\/([^\/?#]+)$/i) || [,''])[1],
+      hash: a.hash.replace('#',''),
+      path: a.pathname.replace(/^([^\/])/,'/$1'),
+      relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [,''])[1],
+      segments: a.pathname.replace(/^\//,'').split('/')
+  };
+}
+/**
+ * 取得缩略图
+ * @param {*} imgurl 
+ * @param {*} width 
+ * @param {*} height 
+ * @param {*} m 
+ */
+export function getThumbUrl(option={}){
+
+  let {imgurl, width, height,m} = option;
+  if(!imgurl||typeof imgurl==="undefined"){
+      return imageNotAvailable;
+  }
+  if(!/(.*)\.(png|gif|jpg|jpeg)$/i.test(imgurl)){
+    return imgurl;
+  }
+  if(typeof m==='undefined'){
+      m='';
+  }
+  if(imgurl.indexOf('x-oss-process=image/resize')!=-1){
+      return imgurl;
+  }
+  var w = getViewPort().dpr * width;
+  var h = getViewPort().dpr * height;
+  w  = parseInt(width);
+  h  = parseInt(height);
+  w  = w>4096?4096:w;
+  h  = h>4096?4096:h;
+  w  = w<1?1:h;
+  h  = h<1?1:h;
+
+
+  var urlInfo = parseURL(imgurl);
+  var   isAliyun = false;
+  if(urlInfo['host']!=undefined){
+      //判断是否阿里云，不是的话，采用服务端的缩放程序
+      if(urlInfo['host'].toLowerCase().indexOf('aliyuncs.com')!=-1){
+          isAliyun = true;
+      }
+      if(isAliyun){
+          var appendFillMode = '';
+          if(m=='lfit'||m=='mfit'||m=='fill'||m=='pad'||m=='fixed'){
+              appendFillMode = ',m_'+ m;
+          }
+          return imgurl + '?x-oss-process=image/resize,w_' + w + ',h_' + h+appendFillMode;
+      }else{
+          //如果服务端压力大，可以改为直接返回imgurl
+          //console.log('THUMB:',Config.thumbUrl + '?src='+encodeURIComponent(imgurl)+'&w='+retinaWidth+'&h='+retinaHeight);
+          //return '/thumb.php?src='+encodeURIComponent(imgurl)+'&w='+w+'&h='+h;
+          //TODO:服务端缩略待设计
+          return imgurl;
+      }
+  }else{
+      return imgurl;
+  }
 }

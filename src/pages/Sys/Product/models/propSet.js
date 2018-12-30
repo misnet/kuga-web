@@ -37,7 +37,7 @@ export default {
                 //     type: 'listPropValues',
                 //     payload: {propkeyId:pid},
                 // });
-                if(typeof callback=='function'){
+                if(typeof callback==='function'){
                     callback(response);
                 }
             }
@@ -61,7 +61,7 @@ export default {
                 //     type: 'hidePropModal',
                 // });
 
-                if(typeof callback=='function'){
+                if(typeof callback==='function'){
                     callback(response);
                 }
             }
@@ -70,7 +70,7 @@ export default {
         * listPropSets({payload},{call,put,select}) {
             const response = yield call(listPropSet, payload);
             let data = {};
-            if (typeof response['data'] != 'undefined') {
+            if (typeof response['data'] !== 'undefined') {
                 data = response['data'];
             } else {
                 data = [];
@@ -95,7 +95,7 @@ export default {
                 }
             }
         },
-        *getPropSet({payload},{call,put}){
+        *getPropSet({payload,callback},{call,put}){
             const response = yield call(getPropSet, payload);
             let data = {};
             if (response['status'] == 0) {
@@ -109,6 +109,9 @@ export default {
                     currentSet:data
                 },
             });
+            if(typeof callback === 'function'){
+                callback(data);
+            }
         }
     },
     reducers: {

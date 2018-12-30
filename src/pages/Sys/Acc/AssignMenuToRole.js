@@ -18,7 +18,7 @@ import styles from './Assign.less';
     loading: loading.effects['menu/menuList'],
 }))
 @Form.create()
-export default class AssignMenuToRole extends PureComponent {
+class AssignMenuToRole extends PureComponent {
     constructor(props) {
         super(props);
         this.checkedKeys = [];
@@ -139,3 +139,4 @@ export default class AssignMenuToRole extends PureComponent {
         );
     }
 }
+export default AssignMenuToRole;
