@@ -1,10 +1,8 @@
-import ReactDOM from 'react-dom';
-import classNames from 'classnames';
-import { Fragment, PureComponent } from 'react';
+import { PureComponent } from 'react';
 import PropTypes from 'prop-types';
 
 import { getThumbUrl } from '../../utils/utils';
-import { basePort } from 'portfinder';
+
 import styles from './index.less';
 export default class Image extends PureComponent {
     static propTypes = {
@@ -22,9 +20,6 @@ export default class Image extends PureComponent {
         style: {},
         isCascade:false,
     };
-    constructor(props) {
-        super(props);
-    }
     render() {
         const { src, width, height, style, isCascade,...rest } = this.props;
         let imageStyle = { ...style };

@@ -33,6 +33,8 @@ export function hasPermission(authorityIdentity) {
   if (authorityIdentity === 'common') { return true; }
 
   let uid = getAuthority();
+  uid = parseInt(uid,10);
+
   if (!authorityIdentity || !uid) { return false; }
 
   const rootIdentity = 'root';

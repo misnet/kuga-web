@@ -5,12 +5,12 @@
  */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Table, Button } from 'antd';
-
+import { Card, Table, Button,Affix,Divider } from 'antd';
+import { formatMessage } from 'umi/locale';
 import { Link, routerRedux } from 'dva/router';
 import { forEach } from 'lodash';
 import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
-import styles from './Assign.less';
+import styles from '../../common.less';
 
 @connect(({ resources, loading }) => ({
     resources,
@@ -55,7 +55,7 @@ class ResourcesList extends PureComponent {
                 render: (text, record) => (
                     <span>
                         <Link
-                            to={`/sys/assign-role-res/${params.rid}/${record.code}/${record.text}`}
+                            to={`/sys/rolelist/assign-role-res/${params.rid}/${record.code}/${record.text}`}
                         >
                             分配权限
                         </Link>
@@ -66,11 +66,14 @@ class ResourcesList extends PureComponent {
         return (
             <PageHeaderWrapper title="权限资源分配">
                 <Card bordered={false}>
-                    <div className={styles.operatorSection}>
-                        <Button icon="arrow-left" onClick={returnBack}>
-                            返回
+                    <Affix offsetTop={64} className={styles.navToolbarAffix}>
+                        <div className={styles.navToolbar}>
+                        <Button icon="arrow-left" type="primary" onClick={returnBack}>
+                        {formatMessage({id:'form.return'})}
                         </Button>
-                    </div>
+                        <Divider />
+                        </div>
+                    </Affix>
                     <Table
                         rowKey={record => record.code}
                         loading={loading}

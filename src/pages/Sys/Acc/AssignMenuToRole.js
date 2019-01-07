@@ -6,10 +6,11 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Card, Form, Spin, Tree, Button } from 'antd';
+import { Card, Form, Spin, Tree, Button,Affix,Divider } from 'antd';
+import { formatMessage } from 'umi/locale';
 import { union } from 'lodash';
 import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
-import styles from './Assign.less';
+import styles from '../../common.less';
 
 @connect(({ menu, assignMenus, loading }) => ({
     menu,
@@ -89,33 +90,36 @@ class AssignMenuToRole extends PureComponent {
         const { loading, assignLoading, menu: { data }, dispatch } = this.props;
         const expandedMenuIds = [];
         data.map(record => {
-            expandedMenuIds.push(record.id);
+            expandedMenuIds.push(record.id+'');
             if (record.children) {
                 record.children.map(childItem => {
-                    expandedMenuIds.push(childItem.id);
+                    expandedMenuIds.push(childItem.id+ '');
                 });
             }
         });
         const returnBack = () => {
             dispatch(routerRedux.push('/sys/rolelist/index'));
         };
-
+        console.log('expandedMenuIds',expandedMenuIds);
         return (
             <PageHeaderWrapper title="分配菜单">
                 <Card bordered={false}>
-                    <div className={styles.operatorSection}>
+                    <Affix offsetTop={64} className={styles.navToolbarAffix}>
+                        <div className={styles.navToolbar}>
                         <Button
-                            icon="check"
+                            icon="save"
                             type="primary"
                             loading={assignLoading}
                             onClick={this.onSave}
                         >
-                            保存
+                            {formatMessage({id:'form.save'})}
                         </Button>
                         <Button icon="arrow-left" onClick={returnBack}>
-                            返回
+                            {formatMessage({id:'form.return'})}
                         </Button>
-                    </div>
+                        <Divider />
+                        </div>
+                    </Affix>
 
                     <Spin spinning={loading} size="large">
                         <Tree
@@ -128,7 +132,7 @@ class AssignMenuToRole extends PureComponent {
                                 <Tree.TreeNode title={record.name} key={record.id}>
                                     {record.children &&
                                         record.children.map(submenu => (
-                                            <Tree.TreeNode title={submenu.name} key={submenu.id} />
+                                            <Tree.TreeNode title={submenu.name} key={submenu.id + ""} />
                                         ))}
                                 </Tree.TreeNode>
                             ))}

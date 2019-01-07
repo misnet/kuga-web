@@ -13,6 +13,7 @@ import {
     Form,
     Tree,
     Layout,
+    Spin,
     Modal, Input, InputNumber, Divider,
 } from 'antd';
 
@@ -23,9 +24,10 @@ const {  Sider, Content } = Layout;
 const TreeNode = Tree.TreeNode;
 const FormItem = Form.Item;
 
-@connect(({ itemCatalog,propSet }) => ({
+@connect(({ itemCatalog,propSet,loading }) => ({
     itemCatalog,
-    propSet
+    propSet,
+    loading: loading.effects['itemCatalog/listCatalog'],
 }))
 @Form.create()
 class Catalog extends PureComponent {
@@ -49,6 +51,7 @@ class Catalog extends PureComponent {
         })
     }
     onSelectCatalog = (keys, e) => {
+        this.props.form.resetFields();
         this.props.dispatch({
             type: 'itemCatalog/selectCatalog',
             payload: {
@@ -94,18 +97,22 @@ class Catalog extends PureComponent {
                         id:editCatalogData.id,
                         ...form.getFieldsValue()
                     },
+                    callback:()=>{
+                        this.props.form.resetFields();
+                    }
                 });
-                this.props.form.resetFields();
+                
             }
         })
     }
     onSwitchToNew = ()=>{
+        this.props.form.resetFields();
         this.props.dispatch({
             type:'itemCatalog/selectCatalog',
             payload:{
                 catalog:{
                     name: '',
-                    parentId: "0",
+                    parentId: 0,
                     id:0,
                     sortWeight:0
                 }
@@ -143,8 +150,9 @@ class Catalog extends PureComponent {
     });
     render() {
         const {
-            itemCatalog: { catalogModalVisible, editCatalogData, data},
+            itemCatalog: {  editCatalogData, data},
             propSet,
+            loading,
             form:{getFieldDecorator}
         } = this.props;
         const propSetList = propSet.data.list!==undefined?propSet.data.list:[];
@@ -152,7 +160,7 @@ class Catalog extends PureComponent {
             return cList.map((opt, e) => {
                 let optionComponent = [];
                 optionComponent.push(
-                    <Select.Option value={opt.id}>{"--".repeat(deep)+opt.name}</Select.Option>
+                    <Select.Option key={opt.id} value={opt.id}>{"--".repeat(deep)+opt.name}</Select.Option>
                 );
 
                 if(opt.children){
@@ -170,7 +178,8 @@ class Catalog extends PureComponent {
                     <Sider className={styles.sidebar}>
                         <div className={styles.title}>类目</div>
                         <div>
-                            {!data||data.length==0?'暂未创建类目':(
+                            <Spin spinning={loading}>
+                            {!data||data.length==0?'暂无类目':(
                             <Tree
                                 showLine
                                 defaultExpandedKeys = {[]}
@@ -178,7 +187,7 @@ class Catalog extends PureComponent {
                             >
                                 {this.renderTreeNodes(!data||data.length==0?[]:data)}
                             </Tree>)}
-
+                            </Spin>
                         </div>
                     </Sider>
                     <Content className={styles.propNameList}>
@@ -207,7 +216,7 @@ class Catalog extends PureComponent {
                                         message: '请输入类目名称',
                                     },
                                 ],
-                            })(<Input placeholder="请输入" maxLength="50" />)}
+                            })(<Input placeholder="请输入" maxLength={50} />)}
                         </FormItem>
                         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="父级类目">
                             {getFieldDecorator('parentId', {
@@ -220,7 +229,7 @@ class Catalog extends PureComponent {
                                 ],
                             })(
                                 <Select style={{ width: '100%' }}>
-                                    <Select.Option value="0">--顶级类目--</Select.Option>
+                                    <Select.Option value={0}>--顶级类目--</Select.Option>
                                     {renderOption(data,0)}
                                 </Select>
                             )}
@@ -234,7 +243,7 @@ class Catalog extends PureComponent {
                                         message: '请输入权重值，默认为0',
                                     },
                                 ],
-                            })(<InputNumber placeholder="请输入" maxLength="10" />)}
+                            })(<InputNumber placeholder="请输入" maxLength={10} />)}
                         </FormItem>
                         <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="使用的属性集">
                             {getFieldDecorator('propsetId', {

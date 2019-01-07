@@ -1,8 +1,15 @@
 @import "../../node_modules/antd/lib/style/themes/default.less";
 @import "../utils/utils.less";
 /*表上头工具栏*/
+.navToolbarAffix {
+  .ant-affix{
+    z-index:1;
+  }
+}
 .navToolbar{
-  margin-bottom: 16px;
+  z-index: 1;
+  padding: 16px 0 0 0;
+  background:#fff;
   text-align:right;
   button {
     margin-right: 8px;

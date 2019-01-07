@@ -5,13 +5,12 @@
  */
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Card, Form, Checkbox, Table, Button } from 'antd';
+import { Card, Form, Checkbox, Table, Button,Affix,Divider } from 'antd';
 import { routerRedux } from 'dva/router';
 import { indexOf, without } from 'lodash';
-
+import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
-import styles from './Assign.less';
-
+import styles from '../../common.less';
 @connect(({ operations, loading }) => ({
     operations,
     loading: loading.effects['operations/list'],
@@ -120,12 +119,13 @@ class AssignResToRole extends PureComponent {
             },
         ];
         const returnBack = () => {
-            dispatch(routerRedux.push(`/sys/role-res/${params.rid}`));
+            dispatch(routerRedux.push(`/sys/rolelist/role-res/${params.rid}`));
         };
         return (
             <PageHeaderWrapper title="权限资源分配">
                 <Card bordered={false}>
-                    <div className={styles.operatorSection}>
+                    <Affix offsetTop={64} className={styles.navToolbarAffix}>
+                        <div className={styles.navToolbar}>
                         <Button
                             icon="check"
                             type="primary"
@@ -137,7 +137,9 @@ class AssignResToRole extends PureComponent {
                         <Button icon="arrow-left" onClick={returnBack}>
                             返回
                         </Button>
-                    </div>
+                        <Divider />
+                        </div>
+                    </Affix>
                     <Table
                         rowKey={record => record.code}
                         loading={loading}

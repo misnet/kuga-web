@@ -176,7 +176,7 @@ export async function getPropSet(params) {
 }
 
 /**
- * 创建产品
+ * 创建商品
  * @param {*} params 
  */
 export async function createProduct(params){
@@ -186,11 +186,50 @@ export async function createProduct(params){
     });
 }
 /**
- * 产品列表
+ * 商品列表
  * @param {*} params 
  */
 export async function listProducts(params){
     return request(APILIST.BACKEND.PRODUCT_LIST, {
+        method: 'POST',
+        body: params,
+    });
+}
+/**
+ * 取得商品
+ */
+export async function getProduct(params){
+    return request(APILIST.BACKEND.PRODUCT_GET, {
+        method: 'POST',
+        body: params,
+    });
+}
+/**
+ * 更新商品
+ * @param {} params 
+ */
+export async function updateProduct(params){
+    return request(APILIST.BACKEND.PRODUCT_UPDATE, {
+        method: 'POST',
+        body: params,
+    });
+}
+/**
+ * 删除商品
+ * @param {*} params 
+ */
+export async function removeProduct(params){
+    return request(APILIST.BACKEND.PRODUCT_REMOVE, {
+        method: 'POST',
+        body: params,
+    });
+}
+/**
+ * 商品上下架
+ * @param {*} params 
+ */
+export async function setProductOnline(params){
+    return request(APILIST.BACKEND.PRODUCT_ONLINE, {
         method: 'POST',
         body: params,
     });

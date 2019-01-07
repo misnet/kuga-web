@@ -7,12 +7,11 @@ import {
     Form,
     Button,
     Table,
-    notification,
-    Dropdown,
     Select,
     Popconfirm,
     Card,
     Input,
+    InputNumber,
     Row,
     Col, Checkbox
 } from 'antd';
@@ -44,6 +43,7 @@ class EditableCell extends React.Component {
             inputType,
             record,
             index,
+            rules,
             ...restProps
         } = this.props;
         return (
@@ -55,10 +55,7 @@ class EditableCell extends React.Component {
                             {editing ? (
                                 <FormItem style={{ margin: 0 }}>
                                     {getFieldDecorator(dataIndex, {
-                                        rules: [{
-                                            required: required,
-                                            message: `请输入 ${title}!`,
-                                        }],
+                                        rules,
                                         initialValue: record[dataIndex],
                                     })(this.getInput())}
                                 </FormItem>
@@ -232,19 +229,34 @@ class EditPropKey extends PureComponent {
                 title:'属性值',
                 dataIndex:'propvalue',
                 editable:true,
-                required:true
+                required:true,
+                rules:[{
+                    required:true,
+                    message:'请输入属性值'
+                }]
             },
             {
                 title:'编码',
                 dataIndex:'code',
                 editable:true,
-                required:true
+                required:true,
+                rules:[{
+                    required:true,
+                    message:'请输入字母与数字混合的编码，最长4位'
+                },{
+                    pattern:/^[a-zA-Z0-9]{0,4}$/,
+                    message:'请输入字母与数字混合的编码，最长4位'
+                }]
             },
             {
                 title:'颜色值，多个逗号分隔',
                 dataIndex:'colorHexValue',
                 editable:true,
-                required:false
+                required:false,
+                rules:[{
+                    pattern:/^[a-fA-F0-9\,]+$/,
+                    message:'请正确输入颜色色码'
+                }]
             },
             {
                 title:'操作',
@@ -436,6 +448,7 @@ class EditPropKey extends PureComponent {
                 ...col,
                 onCell: record => ({
                     record,
+                    rules:col.rules,
                     required:isRequired,
                     inputType: 'text',
                     dataIndex: col.dataIndex,
@@ -468,7 +481,7 @@ class EditPropKey extends PureComponent {
                                             message: '请输入属性名称',
                                         },
                                     ],
-                                })(<Input placeholder="请输入" maxLength="50" />)}
+                                })(<Input placeholder="请输入" maxLength={50} />)}
                             </FormItem>
                             <FormItem
                                 labelCol={{span: 8}}
@@ -489,7 +502,7 @@ class EditPropKey extends PureComponent {
                                         <Select.Option value="0">--选择输入形式--</Select.Option>
                                         {DICT.FORM_TYPE.list.map((opt, e) => {
                                             let optionComponent = [];
-                                            optionComponent.push(<Select.Option value={opt.id}>{opt.name}</Select.Option>)
+                                            optionComponent.push(<Select.Option value={parseInt(opt.id)}>{opt.name}</Select.Option>)
 
                                             return optionComponent;
                                         })}
@@ -506,7 +519,7 @@ class EditPropKey extends PureComponent {
                                             message: '请输入属性描述',
                                         },
                                     ],
-                                })(<Input placeholder="请输入" maxLength="50" />)}
+                                })(<Input placeholder="请输入" maxLength={50} />)}
                             </FormItem>
                             <Row>
                                 <Col span={8}></Col>

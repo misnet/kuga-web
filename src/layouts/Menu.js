@@ -27,7 +27,7 @@ const menuData = [
             {
               name:'商品列表',
                path:'list',
-               icon:'list'
+               icon:'appstore'
             }
         ]
     },

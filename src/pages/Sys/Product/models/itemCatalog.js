@@ -11,9 +11,9 @@ export default {
         data: [],
         editCatalogData: {
             name: '',
-            parentId: "0",
+            parentId: 0,
             id:0,
-            propsetId:"0",
+            propsetId:0,
             sortWeight:0
         },
         catalogModalType: 'create'
@@ -21,7 +21,7 @@ export default {
 
     effects: {
         //创建
-        * create ({payload}, {call, put}) {
+        * create ({payload,callback}, {call, put}) {
             const response = yield call(createItemCatalog, payload);
             if (response.status == 0) {
                 yield put({
@@ -33,12 +33,15 @@ export default {
                     type: 'listCatalog',
                     payload: {parentId:0,loadTree:true},
                 });
+                if(typeof callback === 'function'){
+                    callback(response);
+                }
             }
         },
         //更新
-        * update({payload},{call,put}) {
+        * update({payload,callback},{call,put}) {
             const response = yield call(updateItemCatalog, payload);
-            if (response.status == 0) {
+            if (response.status === 0) {
 
                 yield put({
                     type:'clearCurrentCatalogData'
@@ -49,13 +52,17 @@ export default {
                     type: 'listCatalog',
                     payload: {parentId:0,loadTree:true},
                 });
+                if(typeof callback === 'function'){
+                    callback(response);
+                }
             }
+            
         },
         //查询列表
         * listCatalog({payload,callback},{call,put,select}) {
             const response = yield call(listItemCatalog, payload);
             let data = {};
-            if (typeof response['data'] != 'undefined') {
+            if (typeof response['data'] !== 'undefined') {
                 data = response['data'];
             } else {
                 data = [];
@@ -64,7 +71,7 @@ export default {
                 type: 'save',
                 payload: data,
             });
-            if(typeof callback =='function'){
+            if(typeof callback ==='function'){
                 callback(data);
             }
         },
@@ -98,9 +105,9 @@ export default {
                 ...state,
                 editCatalogData: {
                     name: '',
-                    parentId: "0",
+                    parentId: 0,
                     id:0,
-                    propsetId:"0",
+                    propsetId:0,
                     sortWeight:0
                 }
             };

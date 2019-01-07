@@ -10,11 +10,11 @@ let DICT = {
     GENDER_FEMAILE:2,
     GENDER_SECRET:0,
     FORM_TYPE:{
-        'TEXT':"1",
-        'RADIO':"2",
-        'CHECKBOX':"3",
-        'TEXTAREA':"4",
-        'IMAGE':"5"
+        'TEXT':1,
+        'RADIO':2,
+        'CHECKBOX':3,
+        'TEXTAREA':4,
+        'IMAGE':5
     }
 }
 DICT.FORM_TYPE.list  = [

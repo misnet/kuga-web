@@ -136,7 +136,7 @@ export default function request(url, options) {
     }else{
       notification.error({
         message: '网络异常',
-        description: '小加非圣贤，孰能无过！喝杯茶再刷新重试！',
+        description: '我非圣贤，孰能无过！喝杯茶再刷新重试！',
       });
     }
     throw error;

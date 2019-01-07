@@ -19,7 +19,7 @@ import { formatMessage } from 'umi/locale';
 import _ from 'lodash';
 import styles from '../common.less';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
-const FormItem = Form.Item;
+
 @connect(({itemCatalog,  loading}) => ({
     itemCatalog
     //loading: loading.effects['propKey/listProps'],
@@ -111,7 +111,7 @@ class SelectCatalog extends PureComponent {
     render() {
         return (
             <PageHeaderWrapper title={formatMessage({id:'product.catalog.select'})} >
-                <Card bordered={false}>
+                <Card bordered={false} style={{minHeight:"400px"}}>
                     <div className={styles.navToolbar}>
                         <Button  type="primary" disabled={this.state.propsetId==0} onClick={this.onNext}>
                         下一步 <Icon type="right" />

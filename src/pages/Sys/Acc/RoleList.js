@@ -6,7 +6,8 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
-import { Table, Card, Button, Divider, Modal } from 'antd';
+import { Table, Card, Button, Divider, Modal,Affix } from 'antd';
+import { formatMessage } from 'umi/locale';
 import { Link } from 'dva/router';
 import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
 import RoleModal from './RoleModal';
@@ -233,12 +234,15 @@ class RoleList extends PureComponent {
         return (
             <PageHeaderWrapper title="角色管理">
                 <Card bordered={false}>
-                    <div className={styles.tableList}>
+                      <Affix offsetTop={64} className={styles.navToolbarAffix}>
                         <div className={styles.navToolbar}>
-                            <Button icon="plus" type="primary" onClick={this.onCreate}>
-                                新建
-                            </Button>
+                        <Button icon="plus" type="primary" onClick={this.onCreate}>
+                        {formatMessage({id:'form.new'})}
+                        </Button>
+                        <Divider />
                         </div>
+                    </Affix>
+                    <div className={styles.tableList}>
                         <Table
                             rowKey={record => record.id}
                             loading={loading}

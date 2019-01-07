@@ -77,7 +77,15 @@ export default {
         PRODUCT_PROPSET_GET:'product.propset.get',
         // 创建产品
         PRODUCT_CREATE:'product.basic.create',
+        // 修改产品
+        PRODUCT_UPDATE:'product.basic.update',
         // 产品列表
-        PRODUCT_LIST: 'product.basic.list'
+        PRODUCT_LIST: 'product.basic.list',
+        // 取得产品
+        PRODUCT_GET: 'product.basic.get',
+        // 删除产品
+        PRODUCT_REMOVE:'product.basic.remove',
+        // 产品上下架
+        PRODUCT_ONLINE:'product.basic.online'
     },
 };
