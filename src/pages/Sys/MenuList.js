@@ -9,12 +9,13 @@ import {
   Table,
   Card,
   Form,
+  Affix,
   Popconfirm,
   Button,
   Divider,
   Icon,
 } from 'antd'
-
+import { formatMessage } from 'umi/locale';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper'
 import MenuModal from './MenuModal'
 import styles from '../common.less'
@@ -178,13 +179,19 @@ class MenuList extends PureComponent {
     return (
       <PageHeaderWrapper title="菜单管理">
         <Card bordered={false}>
+        <Affix offsetTop={64} className={styles.navToolbarAffix}>
+              <div className={styles.navToolbar}>
+              <div className={styles.navToolbar}>
+                <Button icon="plus" type="primary" onClick={this.onCreate}>
+                  {formatMessage({id:'form.new'})}
+                </Button>
+              </div>
+              <Divider />
+              </div>
+          </Affix>
           <div className={styles.tableList}>
 
-            <div className={styles.navToolbar}>
-              <Button icon="plus" type="primary" onClick={this.onCreate}>
-                新建
-              </Button>
-            </div>
+            
             <Table
               rowKey={record => record['id']}
 

@@ -57,6 +57,26 @@ export default [
             },
             {
                 path:"/product/list", component: "./Product/ListProducts"
+            },
+
+            {
+                path:"/store/list",component:"./Store/ListStore"
+            },
+
+            {
+                path:"/store/inandout",component:"./Store/InputOutputInventory"
+            },
+
+            {
+                path:"/store/inventory",component:"./Store/Inventory"
+            },
+
+            {
+                path:"/store/edit",component:"./Store/EditStore"
+            },
+
+            {
+                path:"/store/edit/:id",component:"./Store/EditStore"
             }
         ]
     }

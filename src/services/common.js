@@ -15,3 +15,13 @@ export async function queryOssSetting(params) {
         body: params,
     });
 }
+/**
+ * 地区列表
+ * @param {} params 
+ */
+export async function regionList(params) {
+    return request(APILIST.COMMON.REGION_LIST, {
+        method: 'POST',
+        body: params,
+    });
+}

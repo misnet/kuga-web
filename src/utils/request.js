@@ -85,6 +85,8 @@ export default function request(url, options) {
       var t = value == null ? '' : value;
       if (isBoolean(t)) {
         t = t ? 1 : '';
+      }else if(typeof t === 'object'){
+        t = JSON.stringify(t);
       }
       sign += key + t;
       newParams[key] = t;

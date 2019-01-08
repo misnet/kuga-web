@@ -129,9 +129,10 @@ const roleModal = ({
             </FormItem>
             <FormItem labelCol={{ span: 5 }} wrapperCol={{ span: 15 }} label="默认权限">
                 {getFieldDecorator('defaultAllow', {
-                    initialValue:(item.defaultAllow)
+                    initialValue:item.defaultAllow,
+                    valuePropName: 'checked',
                 })(
-                    <Checkbox name="defaultAllow" checked={item.defaultAllow>0} value={1}>
+                    <Checkbox name="defaultAllow"  value={1}>
                         允许
                     </Checkbox>
                 )}

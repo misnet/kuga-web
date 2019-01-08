@@ -12,11 +12,12 @@ import {
   Popconfirm,
   Button,
   Divider,
+  Affix
 } from 'antd'
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import UserModal from './UserModal';
 import styles from '../common.less'
-
+import { formatMessage } from 'umi/locale';
 const getValue = obj => Object.keys(obj).map(key => obj[key]).join(',')
 
 @connect(({user, loading}) => ({
@@ -200,13 +201,18 @@ class UserListPage extends PureComponent {
     return (
       <PageHeaderWrapper title="用户列表">
         <Card bordered={false}>
+        <Affix offsetTop={64} className={styles.navToolbarAffix}>
+              <div className={styles.navToolbar}>
+              <div className={styles.navToolbar}>
+                <Button icon="plus" type="primary" onClick={this.onCreateUser}>
+                  {formatMessage({id:'form.new'})}
+                </Button>
+              </div>
+              <Divider />
+              </div>
+          </Affix>
           <div className={styles.tableList}>
 
-            <div className={styles.navToolbar}>
-              <Button icon="plus" type="primary" onClick={this.onCreateUser}>
-                新建
-              </Button>
-            </div>
             <Table
               rowKey={record => record.uid}
 

@@ -5,7 +5,8 @@
  */
 export default {
     COMMON:{
-        OSSETTING:'common.osssetting'
+        OSSETTING:'common.osssetting',
+        REGION_LIST:'common.region.list'
     },
     BACKEND: {
         // 用户登陆
@@ -86,6 +87,17 @@ export default {
         // 删除产品
         PRODUCT_REMOVE:'product.basic.remove',
         // 产品上下架
-        PRODUCT_ONLINE:'product.basic.online'
+        PRODUCT_ONLINE:'product.basic.online',
+
+        // 创建店仓
+        STORE_CREATE:'store.basic.create',
+        // 修改店仓
+        STORE_UPDATE:'store.basic.update',
+        // 店仓列表
+        STORE_LIST: 'store.basic.list',
+        // 删除店仓
+        STORE_REMOVE:'store.basic.remove',
+        // 取得某个店仓
+        STORE_GET:'store.basic.get',
     },
 };

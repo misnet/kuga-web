@@ -31,6 +31,28 @@ const menuData = [
             }
         ]
     },
+    {
+      name:'店仓管理',
+      icon:'appstore',
+      path:'store',
+      children:[
+        {
+          name:'店仓列表',
+          path:'list',
+          icon:'appstore'
+        },
+        {
+          name:'出入库',
+          path:'inandout',
+          icon:'appstore'
+        },
+        {
+          name:'库存查询',
+          path:'inventory',
+          icon:'appstore'
+        }
+      ]
+    },
   {
     name: '系统管理',
     icon: 'setting',

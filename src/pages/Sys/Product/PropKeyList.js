@@ -2,7 +2,7 @@
  * 属性名称列表，如颜色、尺码、型号等
  */
 import React, { PureComponent } from 'react';
-import {Divider, Table, Button, Icon, notification, Dropdown, Menu, Popconfirm, Modal, Card} from 'antd';
+import {Divider, Table, Button, Icon, Affix, Dropdown, Menu, Popconfirm, Modal, Card} from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
@@ -127,16 +127,19 @@ class PropNameList extends PureComponent {
         return (
             <PageHeaderWrapper title={formatMessage({id:'sys.attrs.manage'})} >
                 <Card bordered={false}>
+                <Affix offsetTop={64} className={styles.navToolbarAffix}>
+                    <div className={styles.navToolbar}>
+                    <Button icon="plus" type="primary" onClick={this.onCreatePropKey}>
+                        {formatMessage({
+                            id:'sys.attrs.create'
+                        })}
+                    </Button>
+                    <Divider />
+                    </div>
+                </Affix>
                     <div className={styles.tableList}>
 
-                        <div className={styles.navToolbar}>
-                            <Button icon="plus" type="primary" onClick={this.onCreatePropKey}>
-                                {formatMessage({
-                                    id:'sys.attrs.create'
-                                })}
-                            </Button>
-                        </div>
-
+                       
                         <Table
                             rowKey={record => record['id']}
                             columns={columns}

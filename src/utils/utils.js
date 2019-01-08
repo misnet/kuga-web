@@ -195,3 +195,57 @@ export function getThumbUrl(option={}){
       return imgurl;
   }
 }
+/**
+ * 将一个地区对象转为地区数组
+ * @param {*} regionObject  {countryId:?,provinceId:?,cityId:?,countyId:?,townId:?}
+ */
+export function regionObjectToArray(regionObject){
+    let regions = [];
+    if(regionObject.countryId!==0){
+        regions.push(990000);
+        regions.push(regionObject.countryId);
+    }else{
+        regions.push(regionObject.provinceId);
+        if(regionObject.cityId>0){
+            regions.push(regionObject.cityId);
+            if(regionObject.countyId>0){
+                regions.push(regionObject.countyId);
+                if(regionObject.townId>0){
+                    regions.push(regionObject.townId);
+                }
+            }
+        }
+    }
+    return regions;
+}
+/**
+ * 将一个地区数组转为地区对象
+ * @param {*} regionArray 中国的[省、市、区县、街道或镇]或海外的[990000,国家]
+ */
+export function regionArrayToObject(regionArray){
+    let data = {
+        countryId:0,
+        provinceId:0,
+        cityId:0,
+        countyId:0,
+        townId:0
+    };
+    if(Array.isArray(regionArray) && regionArray.length>0){
+        if(regionArray[0]!==990000){
+            data.countryId = 0;
+            data.provinceId = regionArray[0];
+            if(regionArray.length>1){
+                data.cityId = regionArray[1];
+            }
+            if(regionArray.length>2){
+                data.countyId = regionArray[2];
+            }
+            if(regionArray.length>3){
+                data.townId = regionArray[3];
+            }
+        }else{
+            data.countryId = regionArray[1];
+        }
+    }
+    return data;
+}

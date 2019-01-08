@@ -16,5 +16,7 @@ export default {
     'product.info.skucode':'Sku Code',
     'product.info.original.skucode':'Manufactory Sku Code',
     'product.info.listingprice':'Listing Price',
-    'product.info.barcode':'Barcode'
+    'product.info.barcode':'Barcode',
+
+    'store.save.success':'Save store successfully.',
 };

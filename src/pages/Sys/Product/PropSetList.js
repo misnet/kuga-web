@@ -2,7 +2,7 @@
  * 属性名称列表，如颜色、尺码、型号等
  */
 import React, { PureComponent } from 'react';
-import {Table, Button, Icon, Dropdown, Menu, Modal, Card, Form, Input} from 'antd';
+import {Affix, Divider, Table, Button, Icon, Dropdown, Menu, Modal, Card, Form, Input} from 'antd';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
@@ -157,15 +157,17 @@ class PropSetList extends PureComponent {
         return (
             <PageHeaderWrapper title={formatMessage({id:'sys.attrset.manage'})}>
                 <Card bordered={false}>
-                    <div className={styles.tableList}>
-
-                        <div className={styles.navToolbar}>
-                            <Button icon="plus" type="primary" onClick={this.onCreatePropSet}>
+                <Affix offsetTop={64} className={styles.navToolbarAffix}>
+                    <div className={styles.navToolbar}>
+                    <Button icon="plus" type="primary" onClick={this.onCreatePropSet}>
                                 {formatMessage({
                                     id:'sys.attrset.create'
                                 })}
                             </Button>
-                        </div>
+                    <Divider />
+                    </div>
+                </Affix>
+                    <div className={styles.tableList}>
 
                         <Table
                             rowKey={record => record['id']}
