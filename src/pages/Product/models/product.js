@@ -2,7 +2,7 @@
  * 商品管理
  * @author Donny
  */
-import { updateProduct,createProduct,listProducts,getProduct,removeProduct,setProductOnline } from '../../../services/product';
+import { updateProduct,createProduct,listProducts,getProduct,removeProduct,setProductOnline,getSkuInfo } from '../../../services/product';
 
 import _ from 'lodash';
 import { Exception } from 'handlebars';
@@ -37,6 +37,15 @@ export default {
     },
 
     effects: {
+        * getSku({payload,callback},{call,put}){
+            const response = yield call(getSkuInfo,payload);
+            if(response.status === 0 ){
+               if(typeof callback === 'function'){
+                   callback(response.data);
+               }
+            }
+        },
+        //上下架
         * online({payload},{call,select,put}){
             const response = yield call(setProductOnline,payload);
             if(response.status === 0){

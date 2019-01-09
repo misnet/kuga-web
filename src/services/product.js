@@ -234,3 +234,13 @@ export async function setProductOnline(params){
         body: params,
     });
 }
+/**
+ * 根据SKU编号取得SKU信息
+ * @param {*} params 
+ */
+export async function getSkuInfo(params){
+    return request(APILIST.BACKEND.PRODUCT_SKU_GET, {
+        method: 'POST',
+        body: params,
+    });
+}

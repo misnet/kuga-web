@@ -99,5 +99,11 @@ export default {
         STORE_REMOVE:'store.basic.remove',
         // 取得某个店仓
         STORE_GET:'store.basic.get',
+        // 新建出入库单
+        INVENTORY_SHEET_CREATE:'inventory.sheet.create',
+        // 修改出入库单
+        INVENTORY_SHEET_UPDATE:'inventory.sheet.update',
+        // 取得SKU信息
+        PRODUCT_SKU_GET:'product.sku.get'
     },
 };
