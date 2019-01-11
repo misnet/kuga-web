@@ -96,48 +96,13 @@ class UserListPage extends PureComponent {
   }
 
   handleTableChange = (pagination, filtersArg, sorter) => {
-    const {dispatch} = this.props
-    const {formValues} = this.state
-
-    const filters = Object.keys(filtersArg).reduce((obj, key) => {
-      const newObj = {...obj}
-      newObj[key] = getValue(filtersArg[key])
-      return newObj
-    }, {})
-
-    const params = {
-      page: pagination.current,
-      limit: pagination.pageSize,
-      ...formValues,
-      ...filters,
-    }
-    if (sorter.field) {
-      params.sorter = `${sorter.field}_${sorter.order}`
-    }
-
-    dispatch({
+    
+    this.props.dispatch({
       type: 'user/userList',
-      payload: params,
-    })
-  }
-  handleSearch = (e) => {
-    e.preventDefault()
-
-    const {dispatch, form} = this.props
-
-    form.validateFields((err, fieldsValue) => {
-      if (err) {
-        return
-      }
-
-      this.setState({
-        formValues: fieldsValue,
-      })
-
-      dispatch({
-        type: 'user/userList',
-        payload: fieldsValue,
-      })
+      payload: {
+        limit: pagination.pageSize,
+        page: 1,
+      },
     })
   }
 

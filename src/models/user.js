@@ -1,4 +1,4 @@
-import { queryUsers, queryCurrent, createUser, updateUser, deleteUser } from '../services/user';
+import { queryUsers, queryCurrent, createUser, updateUser, deleteUser, changePasswd } from '../services/user';
 
 export default {
   namespace: 'user',
@@ -17,6 +17,14 @@ export default {
   },
 
   effects: {
+    * changePassword({payload,callback},{call,put}){
+      const response  = yield call(changePasswd,payload);
+      if(response.status === 0){
+        if(typeof callback === 'function'){
+          callback(true);
+        }
+      }
+    },
     //创建
     * create ({payload}, {call, put}) {
       const response = yield call(createUser, payload);

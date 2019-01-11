@@ -244,3 +244,13 @@ export async function getSkuInfo(params){
         body: params,
     });
 }
+/**
+ * 概览统计
+ * @param {} params 
+ */
+export async function statsOverview(params){
+    return request(APILIST.BACKEND.PRODUCT_STATS_OVERVIEW, {
+        method: 'POST',
+        body: params,
+    });
+}

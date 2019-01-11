@@ -5,7 +5,6 @@
 import { updateProduct,createProduct,listProducts,getProduct,removeProduct,setProductOnline,getSkuInfo } from '../../../services/product';
 
 import _ from 'lodash';
-import { Exception } from 'handlebars';
 
 export default {
     namespace: 'product',
@@ -145,6 +144,11 @@ export default {
         }
     },
     reducers: {
+        /**
+         * 设置当前商品
+         * @param {*} state 
+         * @param {*} param1 
+         */
         setCurrentProduct(state,{payload}){
             return {
                 ...state,

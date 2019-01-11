@@ -73,10 +73,10 @@ export async function listUser(params) {
  * 查询角色列表
  * @returns {Object}
  */
-export async function list() {
+export async function list(params) {
     return request(APILIST.BACKEND.ROLE_LIST, {
         method: 'POST',
-        body: {},
+        body: params,
     });
 }
 

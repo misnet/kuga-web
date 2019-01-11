@@ -1,92 +1,30 @@
 
 import React, { PureComponent } from 'react';
 import { connect } from 'dva';
-import { Row, Col, Card, List, Avatar } from 'antd';
+import { Row, Col, Card, Icon,List, Avatar } from 'antd';
 
 import PageHeaderLayout from '../../layouts/PageHeaderLayout';
+import { ChartCard, yuan, Field } from 'ant-design-pro/lib/Charts';
+import 'ant-design-pro/dist/ant-design-pro.css';
 
 import styles from './Workplace.less';
+import moment from 'moment';
+import config from '../../config';
 
-const links = [
-  {
-    title: '操作一',
-    href: '',
-  },
-  {
-    title: '操作二',
-    href: '',
-  },
-  {
-    title: '操作三',
-    href: '',
-  },
-  {
-    title: '操作四',
-    href: '',
-  },
-  {
-    title: '操作五',
-    href: '',
-  },
-  {
-    title: '操作六',
-    href: '',
-  },
-];
 
-const members = [
-  {
-    id: 'members-1',
-    title: '科学搬砖组',
-    logo: 'https://gw.alipayobjects.com/zos/rmsportal/BiazfanxmamNRoxxVxka.png',
-    link: '',
-  },
-  {
-    id: 'members-2',
-    title: '程序员日常',
-    logo: 'https://gw.alipayobjects.com/zos/rmsportal/cnrhVkzwxjPwAaCfPbdc.png',
-    link: '',
-  },
-  {
-    id: 'members-3',
-    title: '设计天团',
-    logo: 'https://gw.alipayobjects.com/zos/rmsportal/gaOngJwsRYRaVAuXXcmB.png',
-    link: '',
-  },
-  {
-    id: 'members-4',
-    title: '中二少女团',
-    logo: 'https://gw.alipayobjects.com/zos/rmsportal/ubnKSIfAJTxIgXOKlciN.png',
-    link: '',
-  },
-  {
-    id: 'members-5',
-    title: '骗你学计算机',
-    logo: 'https://gw.alipayobjects.com/zos/rmsportal/WhxKECPNujWoWEFNdnJE.png',
-    link: '',
-  },
-];
-
-@connect(({ project, activities, chart, loading }) => ({
-  project,
-  activities,
-  chart,
-  projectLoading: loading.effects['project/fetchNotice'],
-  activitiesLoading: loading.effects['activities/fetchList'],
+@connect(({ global,user,stats }) => ({
+  global,
+  user,
+  stats
 }))
-export default class Workplace extends PureComponent {
-  componentDidMount() {
-
+class Workplace extends PureComponent {
+  componentDidMount(){
+    this.props.dispatch({
+      type:'stats/getShopOverview'
+    });
   }
-
-  componentWillUnmount() {
-
-  }
-
-
   render() {
-
-
+    const {user:{currentUser},stats:{shopOverview}} = this.props;
     const pageHeaderContent = (
       <div className={styles.pageHeaderContent}>
         <div className={styles.avatar}>
@@ -96,35 +34,49 @@ export default class Workplace extends PureComponent {
           />
         </div>
         <div className={styles.content}>
-          <div className={styles.contentTitle}>早安，曲丽丽，祝你开心每一天！</div>
-          <div>交互专家 | 蚂蚁金服－某某某事业群－某某平台部－某某技术部－UED</div>
-        </div>
-      </div>
-    );
-
-    const extraContent = (
-      <div className={styles.extraContent}>
-        <div className={styles.statItem}>
-          <p>项目数</p>
-          <p>56</p>
-        </div>
-        <div className={styles.statItem}>
-          <p>团队内排名</p>
-          <p>
-            8<span> / 24</span>
-          </p>
-        </div>
-        <div className={styles.statItem}>
-          <p>项目访问</p>
-          <p>2,223</p>
+          <div className={styles.contentTitle}>{currentUser.username}，祝你开心每一天！</div>
+          <div>{moment().format(config.DATE_FORMAT)}</div>
         </div>
       </div>
     );
 
     return (
-      <PageHeaderLayout content={pageHeaderContent} extraContent={extraContent}>
-        fafdafdsa
+      <PageHeaderLayout content={pageHeaderContent} >
+     
+        <Row gutter={24}>
+          <Col xs={{span:24}} sm={{span:8}}>
+          <ChartCard
+            title="商品款数"
+            avatar={
+              <Icon
+                style={{ fontSize:30,borderRadius:"50%",border:"1px solid #d9d9d9",padding:"10px" }}
+                type="gold"
+                theme="outlined"
+              />
+            }
+            total={() => (
+              <span>{shopOverview.productNum}</span>
+            )}
+          />
+          </Col>
+          <Col xs={{span:24}} sm={{span:8}}>
+          <ChartCard
+            title="库存数量"
+            avatar={
+              <Icon
+                style={{ fontSize:30,borderRadius:"50%",border:"1px solid #d9d9d9",padding:"10px" }}
+                type="database"
+                theme="outlined"
+              />
+            }
+            total={() => (
+              <span>{shopOverview.skuNum}</span>
+            )}
+          />
+          </Col>
+        </Row>
       </PageHeaderLayout>
     );
   }
 }
+export default Workplace;

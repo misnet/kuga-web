@@ -17,6 +17,6 @@ export default {
     'product.info.original.skucode':'原厂Sku编码',
     'product.info.listingprice':'零售价',
     'product.info.barcode':'款号',
-
+    'inventory.sheet.list':'单据列表',
     'store.save.success':'店仓保存成功',
 };

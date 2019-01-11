@@ -21,6 +21,8 @@ export default {
         USER_DELETE: 'console.user.delete',
         // 用户自行更新资料
         USER_UPDATE_PROFILE: 'console.profile.update',
+        // 用户改密码
+        USER_CHANGE_PASSWD: 'console.user.changepwd',
 
         // 查询菜单
         MENU_LIST: 'console.menu.list',
@@ -88,6 +90,8 @@ export default {
         PRODUCT_REMOVE:'product.basic.remove',
         // 产品上下架
         PRODUCT_ONLINE:'product.basic.online',
+        // 产品统计
+        PRODUCT_STATS_OVERVIEW:'product.stats.overview',
 
         // 创建店仓
         STORE_CREATE:'store.basic.create',
@@ -103,6 +107,16 @@ export default {
         INVENTORY_SHEET_CREATE:'inventory.sheet.create',
         // 修改出入库单
         INVENTORY_SHEET_UPDATE:'inventory.sheet.update',
+        // 出入库单据列表
+        INVENTORY_SHEET_LIST:'inventory.sheet.list',
+        // 取得出入库单
+        INVENTORY_SHEET_GET:'inventory.sheet.get',
+        // 审核单据
+        INVENTORY_SHEET_CHECKED:'inventory.sheet.checked',
+        // 删除单据
+        INVENTORY_SHEET_REMOVE:'inventory.sheet.remove',
+        // 库存明细
+        INVENTORY_ITEMS:'inventory.items',
         // 取得SKU信息
         PRODUCT_SKU_GET:'product.sku.get'
     },

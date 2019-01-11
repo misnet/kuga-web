@@ -25,6 +25,7 @@ export default {
     }
     return newOption;
   },
-  SYS_NAME:'PMIT Platform',
-  IMG_HOST:'http://localhost:8000'
+  SYS_NAME:'Depoga',
+  IMG_HOST:'http://localhost:8000',
+  DATE_FORMAT:'YYYY年MM月DD日 HH:mm:ss'
 };

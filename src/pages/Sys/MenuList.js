@@ -194,7 +194,7 @@ class MenuList extends PureComponent {
             
             <Table
               rowKey={record => record['id']}
-
+              pagination={false}
               loading={loading}
               dataSource={data}
               columns={columns}

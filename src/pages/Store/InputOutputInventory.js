@@ -41,10 +41,33 @@ class InputOutInventory extends PureComponent {
     const params = this.props.match.params;
     this.state = {
       storeData: [],
-      value: [],
+      value: {
+        key:'',
+        label:''
+      },
       skuList:[],
       fetchingStore: false,
     };
+    const sheetId = parseInt(params['id'],10);
+    if (!isNaN(sheetId) && sheetId > 0) {
+      this.props.dispatch({
+        type:'inventorySheet/getSheet',
+        payload:{
+          id:sheetId
+        },
+        callback:(data)=>{
+          let newState = _.cloneDeep(this.state);
+          if(data.storeId && data.storeName){
+            newState.value = {key:data.storeId,value:data.storeId,label:data.storeName};
+          }
+          if(data.itemList){
+            newState.skuList = data.itemList;
+          }
+          this.setState(newState);
+        }
+      })
+    }
+
   }
   onSearchStore = keyword => {
     this.setState({
@@ -68,6 +91,7 @@ class InputOutInventory extends PureComponent {
     });
   };
   onChangeStore = value => {
+    console.log('value',value);
     this.setState({
       value,
       storeData: [],
@@ -77,7 +101,6 @@ class InputOutInventory extends PureComponent {
   onSave = () => {
     this.props.form.validateFields((error, values) => {
       if (!error) {
-        console.log('values', values);
         let itemList = [];
         this.state.skuList.map(sku=>{
           itemList.push({
@@ -91,11 +114,11 @@ class InputOutInventory extends PureComponent {
           sheetCode:values.sheetCode,
           sheetType:values.sheetType,
           sheetDesc:values.sheetDesc,
-          storeId:values.store.key,
+          storeId:values.storeName.key,
           sheetTime:values.sheetTime.format('YYYY-MM-DD HH:mm:ss'),
           itemList:itemList
         };
-        
+        console.log('postData',postData);
         const actionType = id >0?'update':'create';
         this.props.dispatch({
           type: `inventorySheet/${actionType}`,
@@ -196,6 +219,11 @@ class InputOutInventory extends PureComponent {
       }
     })
   }
+  onBackToList=()=>{
+    this.props.dispatch(
+      routerRedux.push('/store/inventory-sheets')
+    )
+  }
   render() {
     const {
       inventorySheet: { currentSheet },
@@ -227,11 +255,12 @@ class InputOutInventory extends PureComponent {
         dataIndex: 'action',
         key: 'action',
         render:(text,record)=>(
+          currentSheet.isChecked<1?
           <Button.Group>
             <Button type="primary" onClick={()=>this.onSkuQtyChange(record.id,1)}><Icon type="plus" />增加</Button>
             <Button onClick={()=>this.onSkuQtyChange(record.id,-1)}><Icon type="minus" />减少</Button>
             <Button onClick={()=>this.onSkuQtyChange(record.id)} type="danger"><Icon type="close" />删除</Button>
-          </Button.Group>
+          </Button.Group>:null
         )
       },
     ];
@@ -240,9 +269,13 @@ class InputOutInventory extends PureComponent {
         <Card bordered={false}>
           <Affix offsetTop={64} className={styles.navToolbarAffix}>
             <div className={styles.navToolbar}>
+              <Button icon="appstore" type="default" onClick={this.onBackToList}>
+                {formatMessage({ id: 'inventory.sheet.list' })}
+              </Button>
+              {currentSheet.isChecked<1?
               <Button icon="save" type="primary" onClick={this.onSave}>
                 {formatMessage({ id: 'form.save' })}
-              </Button>
+              </Button>:null}
               <Divider />
             </div>
           </Affix>
@@ -266,7 +299,7 @@ class InputOutInventory extends PureComponent {
                         message: '单号只能由字母、数字、中划线组成',
                       },
                     ],
-                  })(<Input placeholder="请输入正确单号" maxLength={20} />)}
+                  })(<Input placeholder="请输入正确单号" maxLength={20} disabled={currentSheet.isChecked>0}/>)}
                 </FormItem>
               </Col>
               <Col xs={{ span: 24 }} sm={{ span: 12 }}>
@@ -278,7 +311,7 @@ class InputOutInventory extends PureComponent {
                   {getFieldDecorator('sheetType', {
                     initialValue: currentSheet.sheetType,
                   })(
-                    <Radio.Group buttonStyle="solid">
+                    <Radio.Group buttonStyle="solid"  disabled={currentSheet.isChecked>0}>
                       <Radio.Button value={1}>入库单</Radio.Button>
                       <Radio.Button value={2}>出库单</Radio.Button>
                     </Radio.Group>
@@ -291,7 +324,7 @@ class InputOutInventory extends PureComponent {
                   wrapperCol={{ sm: { span: 16 }, xs: { span: 24 } }}
                   label="店仓"
                 >
-                  {getFieldDecorator('store', {
+                  {getFieldDecorator('storeName', {
                     initialValue: this.state.value,
                     rules: [
                       {
@@ -301,6 +334,7 @@ class InputOutInventory extends PureComponent {
                     ],
                   })(
                     <Select
+                      disabled={currentSheet.isChecked>0}
                       showSearch
                       labelInValue
                       defaultActiveFirstOption={false}
@@ -333,6 +367,7 @@ class InputOutInventory extends PureComponent {
                       showTime
                       format="YYYY-MM-DD HH:mm:ss"
                       placeholder="请选时间"
+                      disabled={currentSheet.isChecked>0}
                     />
                   )}
                 </FormItem>
@@ -345,20 +380,20 @@ class InputOutInventory extends PureComponent {
                 >
                   {getFieldDecorator('sheetDesc', {
                     initialValue: currentSheet.sheetDesc,
-                  })(<Input.TextArea rows={5} maxLength={250} />)}
+                  })(<Input.TextArea rows={5} maxLength={250}  disabled={currentSheet.isChecked>0}/>)}
                 </FormItem>
               </Col>
             </Row>
             <Divider />
             <Row>
-              <Col xs={{ span: 24 }} sm={{ span: 12 }}>
+              {currentSheet.isChecked<1?<Col xs={{ span: 24 }} sm={{ span: 12 }}>
                 <Input.Search
                   placeholder="请输入商品条码"
                   enterButton="添加"
                   size="large"
                   onSearch={value =>this.onSearchSku(value)}
                 />
-              </Col>
+              </Col>:null}
               <Col xs={{ span: 24 }}>
                 <Table 
                   rowKey={record=>record.id}

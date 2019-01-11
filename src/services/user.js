@@ -87,3 +87,13 @@ export async function deleteUser(params){
     body:params
   });
 }
+/**
+ * 改密码
+ * @param {*} params 
+ */
+export async function changePasswd(params){
+  return request(APILIST.BACKEND.USER_CHANGE_PASSWD,{
+    method:'POST',
+    body:params
+  })
+}

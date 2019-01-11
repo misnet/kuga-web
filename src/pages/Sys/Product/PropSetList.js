@@ -113,7 +113,15 @@ class PropSetList extends PureComponent {
             });
         }
     }
-
+    onTableListChange=(pagination)=>{
+        this.props.dispatch({
+          type: 'propSet/listPropSets',
+          payload: {
+            limit: pagination.pageSize,
+            page: 1,
+          },
+        });
+      }
     render() {
         const columns = [
             {
@@ -154,6 +162,16 @@ class PropSetList extends PureComponent {
             loading,
             propSet: { data }
         } = this.props;
+        const paginationProps = {
+            showTotal(total) {
+              return `共 ${total} 条记录`;
+            },
+            showSizeChanger: true,
+            showQuickJumper: true,
+            pageSize: data.limit,
+            current: data.page,
+            total: data.total,
+          };
         return (
             <PageHeaderWrapper title={formatMessage({id:'sys.attrset.manage'})}>
                 <Card bordered={false}>
@@ -174,6 +192,8 @@ class PropSetList extends PureComponent {
                             columns={columns}
                             dataSource={data.list}
                             scroll={{ x: 600 }}
+                            onChange={this.onTableListChange}
+                            pagination={paginationProps}
                             loading={loading}/>
                     </div>
                 </Card>

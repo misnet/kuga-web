@@ -5,7 +5,7 @@ import { Icon } from 'antd';
 import GlobalFooter from '@/components/GlobalFooter';
 import styles from './UserLayout.less';
 import logo from '@/assets/logo.svg';
-
+import config from '../config';
 const links = [
 
 ];
@@ -20,7 +20,7 @@ class UserLayout extends React.PureComponent {
   getPageTitle() {
     const { routerData, location } = this.props;
     const { pathname } = location;
-    let title = 'Depoga Demo2';
+    let title = config.SYS_NAME;
     if (routerData[pathname] && routerData[pathname].name) {
       title = `${routerData[pathname].name} - Depoga Demo2`;
     }

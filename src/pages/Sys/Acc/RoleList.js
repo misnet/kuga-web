@@ -92,22 +92,12 @@ class RoleList extends PureComponent {
     };
 
     handleTableChange = (pagination, filtersArg, sorter) => {
-        const { dispatch } = this.props;
-        const { formValues } = this.state;
-
-        const filters = Object.keys(filtersArg).reduce((obj, key) => {
-            const newObj = { ...obj };
-            newObj[key] = getValue(filtersArg[key]);
-            return newObj;
-        }, {});
-
-        const params = {
-            ...formValues,
-            ...filters,
-        };
-        dispatch({
+        this.props.dispatch({
             type: 'role/list',
-            payload: params,
+            payload:{
+                page:1,
+                limit:pagination.pageSize
+            }
         });
     };
     selectMenu = (record, e) => {

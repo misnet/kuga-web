@@ -1,5 +1,5 @@
 /**
- * 系统管理--用户列表界面
+ * 库存明细
  * @author Donny
  *
  */
@@ -7,60 +7,100 @@ import React, { Fragment,PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
-import { Affix,Table, Card, Form, Button, Divider,Popconfirm } from 'antd';
+import { Affix,Table, Card, Form, Button,Spin, Divider,Select,Input } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../common.less';
 import NetImage from '../../components/Image';
 
-@connect(({ product, loading }) => ({
-  product,
-  loading: loading.effects['product/list'],
+@connect(({ inventorySheet, store,loading }) => ({
+  inventorySheet,
+  store,
+  loading: loading.effects['inventorySheet/getItemList'],
 }))
 @Form.create()
-class ListProducts extends PureComponent {
+class Inventory extends PureComponent {
+  constructor(props) {
+    super(props);
+    this.state = {
+      storeData: [],
+      value: {
+        key:'',
+        label:''
+      },
+      fetchingStore: false,
+    };
+  }
   componentDidMount() {
+    
     const { dispatch } = this.props;
+    
     dispatch({
-      type: 'product/list',
+      type: 'inventorySheet/getItemList',
       payload: {
         limit: 10,
         page: 1,
       },
     });
   }
-  onNew=()=>{
-    this.props.dispatch(
-      routerRedux.push('/product/edit')
-    )
-  }
-  onEdit=(record)=>{
-    console.log('record',record);
-    this.props.dispatch(
-      routerRedux.push('/product/edit/'+record.id)
-    );
-  }
-  onDelete=(record)=>{
-    
-    this.props.dispatch({
-      type:'product/remove',
-      payload:{
-        id:record.id
-      }
+  onSearchStore = keyword => {
+    this.setState({
+      fetchingStore: true,
     });
-  }
-  onSetOnLine=(record,isOnline)=>{
     this.props.dispatch({
-      type:'product/online',
-      payload:{
-        id:record.id,
-        isOnline:isOnline?1:0
-      }
+      type: 'store/listStores',
+      payload: {
+        keyword: keyword,
+      },
+      callback: storeList => {
+        const data = storeList.list.map(store => ({
+          text: store.name,
+          value: store.id,
+        }));
+        this.setState({
+          storeData: data,
+          fetchingStore: false,
+        });
+      },
     });
+  };
+  onChangeStore = value => {
+    console.log('value',value);
+    this.setState({
+      value,
+      storeData: [],
+      fetchingStore: false,
+    });
+  };
+  /**
+   * 按查询按钮
+   */
+  onSearch=(page=1,limit)=>{
+    const values = this.props.form.getFieldsValue();
+    let pageSize = this.refs['productTable'].props.pagination.pageSize;
+    if(!limit){
+      pageSize = limit;
+    }
+    const payload = {
+      storeId:values.store?values.store.key:0,
+      keyword:values.keyword
+    }
+    this.props.dispatch({
+      type:'inventorySheet/getItemList',
+      payload:{
+        ...payload,
+        page:page,
+        limit:pageSize
+      }
+    })
+  }
+  onTableListChange=(pagination)=>{
+      this.onSearch(1,pagination.pageSize);
   }
   render() {
     const {
       loading,
-      product: { products },
+      inventorySheet: { stockItems },
+      form:{getFieldDecorator}
     } = this.props;
     // const {selectedRows} = this.state;
     // 分页定义
@@ -70,15 +110,15 @@ class ListProducts extends PureComponent {
       },
       showSizeChanger: true,
       showQuickJumper: true,
-      pageSize: products.limit,
-      current: products.page,
-      total: products.total,
+      pageSize: stockItems.limit,
+      current: stockItems.page,
+      total: stockItems.total
     };
 
     // 表列定义
     const columns = [
       {
-        title: '商品ID',
+        title: 'ID',
         dataIndex: 'id',
         key: 'id',
       },
@@ -95,8 +135,8 @@ class ListProducts extends PureComponent {
         key: 'title',
         render: (text, record) => (
           <div>
-            <div>类目：{record.catalogNamePath}</div>
             <div>名称：{record.title}</div>
+            <div>SKU：{record.skuString}</div>
           </div>
         ),
       },
@@ -106,50 +146,83 @@ class ListProducts extends PureComponent {
         key: 'barcode',
       },
       {
+        title: 'SKU编号',
+        dataIndex: 'skuSn',
+        key: 'skuSn',
+      },
+      {
+        title: '店仓',
+        dataIndex: 'storeName',
+        key: 'storeName',
+      },
+      {
         title: '价格',
-        dataIndex: 'listingPrice',
-        key: 'listingPrice',
+        dataIndex: 'price',
+        key: 'price',
       },
       {
-        title: '状态',
-        dataIndex: 'isOnline',
-        key: 'isOnline',
-        render:(text,record)=>record.isOnline===1?'上架中':'下架中'
+        title: '库存',
+        dataIndex: 'stockQty',
+        key: 'stockQty',
       },
       {
-        title: '操作',
-        dataIndex: 'action',
-        key: 'action',
-        render: (text, record) => (<Fragment>
-          <a onClick={()=>this.onEdit(record)}>修改</a><Divider type="vertical"/>
-          <Popconfirm
-                            title="确定删除这个商品?"
-                            onConfirm={() => this.onDelete(record)}
-                        >
-                        <a >删除</a>
-                        </Popconfirm><Divider type="vertical"/>
-                        <a onClick={()=>this.onSetOnLine(record,!record.isOnline)}>{record.isOnline?'下架':'上架'}</a>
-          </Fragment>)
+        title: '在途入量',
+        dataIndex: 'preinQty',
+        key: 'preinQty',
       },
+      {
+        title: '在途出量',
+        dataIndex: 'preoutQty',
+        key: 'preoutQty',
+      }
     ];
 
     return (
-      <PageHeaderWrapper title="商品列表">
+      <PageHeaderWrapper title="库存明细">
         <Card bordered={false}>
 
           <Affix offsetTop={64} className={styles.navToolbarAffix}>
-            <div className={styles.navToolbar}>
-              <Button icon="plus" type="primary" onClick={this.onNew}>
-              {formatMessage({id:'form.new'})}
-              </Button>
+            <div className={styles.navToolbar} style={{textAlign:'left'}}>
+                <Form layout="inline">
+                  <Form.Item >
+                  {getFieldDecorator('store')(<Select
+                      name="store"
+                      style={{width:"200px"}}
+                      showSearch
+                      labelInValue
+                      defaultActiveFirstOption={false}
+                      showArrow={false}
+                      filterOption={false}
+                      notFoundContent={this.state.fetchingStore ? <Spin size="small" /> : null}
+                      onSearch={this.onSearchStore}
+                      onChange={this.onChangeStore}
+                      placeholder={'请输入店仓名称并选择'}
+                    >
+                      {this.state.storeData.map(d => (
+                        <Select.Option key={d.value}>{d.text}</Select.Option>
+                      ))}
+                    </Select>)}
+                    </Form.Item>
+                    <Form.Item>
+                    {getFieldDecorator('keyword')(
+                        <Input placeholder="商品名称关键词" name="keyword"/>
+                      )}
+                      
+                    </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" onClick={()=>this.onSearch()}>查询</Button>
+                  </Form.Item>
+               </Form>
               <Divider />
             </div>
           </Affix>
           <div className={styles.tableList}>
             <Table
+              ref='inventoryTable'
+              onChange={this.onTableListChange}
               rowKey={record => record.id}
               loading={loading}
-              dataSource={products.list}
+              dataSource={stockItems.list}
               columns={columns}
               pagination={paginationProps}
             />
@@ -159,4 +232,4 @@ class ListProducts extends PureComponent {
     );
   }
 }
-export default ListProducts;
+export default Inventory;

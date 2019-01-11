@@ -2,13 +2,14 @@ import { isUrl } from '../utils/utils';
 
 const menuData = [
   {
-    name: 'dashboard',
+    name: 'Dashboard',
     icon: 'dashboard',
     path: 'dashboard',
     children: [
       {
         name: '工作台',
         path: 'workplace',
+        icon: 'dashboard',
         // hideInBreadcrumb: true,
         // hideInMenu: true,
       },
@@ -49,6 +50,12 @@ const menuData = [
         {
           name:'库存查询',
           path:'inventory',
+          icon:'appstore'
+        },
+        {
+          hideInMenu: true,
+          name:'出入库列表',
+          path:'inventory-sheets',
           icon:'appstore'
         }
       ]

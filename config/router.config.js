@@ -13,6 +13,9 @@ export default [
         Routes: ['src/pages/Authorized'],
         routes:[
             {path:"/", redirect: "/dashboard/workplace"},
+            {
+                path:"/account/profile",component:"./User/Profile"
+            },
             {path:"/dashboard/workplace",component:"./Dashboard/Workplace"},
             {path:"/sys/userlist",component:"./Sys/UserList"},
             {path:"/sys/menulist",component:"./Sys/MenuList"},
@@ -68,6 +71,10 @@ export default [
             },
 
             {
+                path:"/store/inandout/:id",component:"./Store/InputOutputInventory"
+            },
+
+            {
                 path:"/store/inventory",component:"./Store/Inventory"
             },
 
@@ -77,6 +84,9 @@ export default [
 
             {
                 path:"/store/edit/:id",component:"./Store/EditStore"
+            },
+            {
+                path:"/store/inventory-sheets",component:"./Store/InventorySheets"
             }
         ]
     }

@@ -55,7 +55,15 @@ class PropNameList extends PureComponent {
             this.props.onShowPropValueList(record);
         }
     }
-
+    onTableListChange=(pagination)=>{
+        this.props.dispatch({
+          type: 'propKey/listProps',
+          payload: {
+            limit: pagination.pageSize,
+            page: 1,
+          },
+        });
+      }
     render() {
         if (this.props.hide) {
             return null;
@@ -123,7 +131,16 @@ class PropNameList extends PureComponent {
             loading,
             propKey: { data}
         } = this.props;
-
+        const paginationProps = {
+            showTotal(total) {
+              return `共 ${total} 条记录`;
+            },
+            showSizeChanger: true,
+            showQuickJumper: true,
+            pageSize: data.limit,
+            current: data.page,
+            total: data.total,
+          };
         return (
             <PageHeaderWrapper title={formatMessage({id:'sys.attrs.manage'})} >
                 <Card bordered={false}>
@@ -145,6 +162,8 @@ class PropNameList extends PureComponent {
                             columns={columns}
                             dataSource={data.list}
                             scroll={{ x: 600 }}
+                            onChange={this.onTableListChange}
+                            pagination={paginationProps}
                             loading={loading}/>
                     </div>
                 </Card>

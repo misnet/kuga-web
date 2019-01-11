@@ -28,6 +28,15 @@ class StoreListPage extends PureComponent {
       },
     });
   }
+  onTableListChange=(pagination)=>{
+    this.props.dispatch({
+      type: 'store/listStores',
+      payload: {
+        limit: pagination.pageSize,
+        page: 1,
+      },
+    });
+  }
   onNew=()=>{
     this.props.dispatch(
       routerRedux.push('/store/edit')
@@ -135,6 +144,7 @@ class StoreListPage extends PureComponent {
               loading={loading}
               dataSource={stores.list}
               columns={columns}
+              onChange={this.onTableListChange}
               pagination={paginationProps}
             />
           </div>

@@ -7,7 +7,7 @@ import React, { Fragment,PureComponent } from 'react';
 import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
-import { Affix,Table, Card, Form, Button, Divider,Popconfirm } from 'antd';
+import { Affix,Table, Card, Form, Button, Divider,Popconfirm,Select,Input } from 'antd';
 import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from '../common.less';
 import NetImage from '../../components/Image';
@@ -27,6 +27,32 @@ class ListProducts extends PureComponent {
         page: 1,
       },
     });
+  }
+  onSearch=(limit)=>{
+    let pageSize = this.refs['productTable'].props.pagination.pageSize;
+    if(limit==undefined){
+      limit = pageSize;
+    }
+    const values = this.props.form.getFieldsValue();
+    this.props.dispatch({
+      type: 'product/list',
+      payload: {
+        page: 1,
+        limit:limit,
+        isOnline:values.isOnline,
+        keyword:values.keyword===undefined?'':values.keyword
+      }
+    });
+  }
+  onTableListChange=(pagination)=>{
+    this.onSearch()
+    // this.props.dispatch({
+    //   type: 'product/list',
+    //   payload: {
+    //     limit: pagination.pageSize,
+    //     page: 1,
+    //   },
+    // });
   }
   onNew=()=>{
     this.props.dispatch(
@@ -61,6 +87,7 @@ class ListProducts extends PureComponent {
     const {
       loading,
       product: { products },
+      form:{getFieldDecorator}
     } = this.props;
     // const {selectedRows} = this.state;
     // 分页定义
@@ -74,6 +101,17 @@ class ListProducts extends PureComponent {
       current: products.page,
       total: products.total,
     };
+    const onlineData = [
+      {
+        value:-1,text:'全部'
+      },
+      {
+        value:0,text:'下架'
+      },
+      {
+        value:1,text:'上架'
+      }
+    ]
 
     // 表列定义
     const columns = [
@@ -138,19 +176,44 @@ class ListProducts extends PureComponent {
         <Card bordered={false}>
 
           <Affix offsetTop={64} className={styles.navToolbarAffix}>
-            <div className={styles.navToolbar}>
-              <Button icon="plus" type="primary" onClick={this.onNew}>
-              {formatMessage({id:'form.new'})}
-              </Button>
+            <div className={styles.navToolbar} style={{textAlign:'left'}}>
+            <Form layout="inline">
+                  <Form.Item >
+                  {getFieldDecorator('isOnline',{
+                    initialValue:-1
+                  })(<Select
+                      style={{width:"200px"}}
+                    >
+                      {onlineData.map(d => (
+                        <Select.Option key={d.value} value={d.value}>{d.text}</Select.Option>
+                      ))}
+                    </Select>)}
+                    </Form.Item>
+                    <Form.Item>
+                    {getFieldDecorator('keyword')(
+                        <Input placeholder="商品名称或款号关键词" name="keyword"/>
+                      )}
+                    </Form.Item>
+                  <Form.Item>
+                    <Button type="primary" onClick={()=>this.onSearch()}>查询</Button>
+                  </Form.Item>
+                  <Form.Item>
+                    <Button icon="plus" type="primary" onClick={this.onNew}>
+                    {formatMessage({id:'form.new'})}
+                    </Button>
+                  </Form.Item>
+               </Form>
               <Divider />
             </div>
           </Affix>
           <div className={styles.tableList}>
             <Table
+              ref={'productTable'}
               rowKey={record => record.id}
               loading={loading}
               dataSource={products.list}
               columns={columns}
+              onChange={this.onTableListChange}
               pagination={paginationProps}
             />
           </div>

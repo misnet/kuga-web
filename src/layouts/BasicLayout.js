@@ -20,6 +20,7 @@ import { getUserProfile } from '../utils/auth';
 import { getMenuData } from './Menu';
 
 import { hasPermission } from '../utils/authority';
+import config from '../config';
 // lazy load SettingDrawer
 //const SettingDrawer = React.lazy(() => import('@/components/SettingDrawer'));
 const { Content } = Layout;
@@ -137,14 +138,14 @@ class BasicLayout extends React.PureComponent {
         const currRouterData = this.matchParamsPath(pathname);
 
         if (!currRouterData) {
-            return 'Depoga demo';
+            return config.SYS_NAME;
         }
         //TODO:取消页面title的翻译
         // const pageName = formatMessage({
         //     id: currRouterData.locale || currRouterData.name,
         //     defaultMessage: currRouterData.name,
         // });
-        return `${currRouterData.name} - Depoga`;
+        return `${currRouterData.name} - ${config.SYS_NAME}`;
     };
 
     getLayoutStyle = () => {
