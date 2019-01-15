@@ -2,7 +2,7 @@
  * 商品属性集合
  * @author Donny
  */
-import {createPropSet, updatePropSet, listPropSet, removePropSet, getPropSet} from '../../../../services/product';
+import {createPropSet, updatePropSet, listPropSet, removePropSet, getPropSet} from '../../../services/product';
 import _ from 'lodash';
 import {notification} from 'antd';
 export default {

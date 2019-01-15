@@ -20,9 +20,9 @@ import { routerRedux } from 'dva/router';
 import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import update from 'immutability-helper';
-import styles from '../../common.less';
-import PageHeaderWrapper from '../../../components/PageHeaderWrapper'
-import DICT from "../../../dict";
+import styles from '../common.less';
+import PageHeaderWrapper from '../../components/PageHeaderWrapper'
+import DICT from "../../dict";
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();

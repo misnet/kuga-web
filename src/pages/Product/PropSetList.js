@@ -7,8 +7,8 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
 
-import styles from '../../common.less';
-import PageHeaderWrapper from '../../../components/PageHeaderWrapper'
+import styles from '../common.less';
+import PageHeaderWrapper from '../../components/PageHeaderWrapper'
 
 const FormItem = Form.Item;
 const EditableContext = React.createContext();
@@ -118,7 +118,7 @@ class PropSetList extends PureComponent {
           type: 'propSet/listPropSets',
           payload: {
             limit: pagination.pageSize,
-            page: 1,
+            page: pagination.current,
           },
         });
       }

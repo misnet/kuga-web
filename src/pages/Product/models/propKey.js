@@ -2,7 +2,7 @@
  * 商品属性
  * @author Donny
  */
-import { createProp,updateProp,listProps,removeProp, getProp } from '../../../../services/product';
+import { createProp,updateProp,listProps,removeProp, getProp } from '../../../services/product';
 import _ from 'lodash';
 export default {
     namespace: 'propKey',

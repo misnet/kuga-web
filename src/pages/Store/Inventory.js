@@ -94,7 +94,7 @@ class Inventory extends PureComponent {
     })
   }
   onTableListChange=(pagination)=>{
-      this.onSearch(1,pagination.pageSize);
+      this.onSearch(pagination.current,pagination.pageSize);
   }
   render() {
     const {

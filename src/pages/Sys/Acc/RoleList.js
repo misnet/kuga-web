@@ -95,7 +95,7 @@ class RoleList extends PureComponent {
         this.props.dispatch({
             type: 'role/list',
             payload:{
-                page:1,
+                page:pagination.current,
                 limit:pagination.pageSize
             }
         });

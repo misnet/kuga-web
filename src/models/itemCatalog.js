@@ -2,11 +2,10 @@
  * 商品类目与属性定义
  * @author Donny
  */
-import { createItemCatalog,listItemCatalog,updateItemCatalog,removeItemCatalog } from '../../../../services/product';
+import { createItemCatalog,listItemCatalog,updateItemCatalog,removeItemCatalog } from '../services/product';
 
 export default {
     namespace: 'itemCatalog',
-
     state: {
         data: [],
         editCatalogData: {
@@ -60,6 +59,7 @@ export default {
         },
         //查询列表
         * listCatalog({payload,callback},{call,put,select}) {
+            console.log('test...');
             const response = yield call(listItemCatalog, payload);
             let data = {};
             if (typeof response['data'] !== 'undefined') {

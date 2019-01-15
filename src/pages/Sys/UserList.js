@@ -101,7 +101,7 @@ class UserListPage extends PureComponent {
       type: 'user/userList',
       payload: {
         limit: pagination.pageSize,
-        page: 1,
+        page: pagination.current,
       },
     })
   }

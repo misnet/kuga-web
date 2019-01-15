@@ -33,7 +33,7 @@ class StoreListPage extends PureComponent {
       type: 'store/listStores',
       payload: {
         limit: pagination.pageSize,
-        page: 1,
+        page: pagination.current,
       },
     });
   }

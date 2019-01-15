@@ -10,7 +10,7 @@ import pathToRegexp from 'path-to-regexp';
 import Media from 'react-media';
 import { formatMessage } from 'umi/locale';
 import Authorized from '@/utils/Authorized';
-import logo from '../assets/logo.svg';
+import logo from '../assets/logo.png';
 import Footer from './Footer';
 import Header from './Header';
 import Context from './MenuContext';
@@ -163,6 +163,7 @@ class BasicLayout extends React.PureComponent {
         return {
             margin: '24px 24px 0',
             paddingTop: fixedHeader ? 64 : 0,
+            zIndex:1
         };
     };
 

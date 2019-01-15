@@ -17,7 +17,7 @@ import {
     Modal, Input, InputNumber, Divider,
 } from 'antd';
 
-import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
+import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 import styles from './ItemCatalog.less';
 
 const {  Sider, Content } = Layout;

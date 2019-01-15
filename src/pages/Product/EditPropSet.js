@@ -22,8 +22,8 @@ import { DragDropContext, DragSource, DropTarget } from 'react-dnd';
 import HTML5Backend from 'react-dnd-html5-backend';
 import _ from 'lodash';
 import update from 'immutability-helper';
-import styles from '../../common.less';
-import PageHeaderWrapper from '../../../components/PageHeaderWrapper'
+import styles from '../common.less';
+import PageHeaderWrapper from '../../components/PageHeaderWrapper'
 
 const FormItem = Form.Item;
 
@@ -302,15 +302,17 @@ class EditPropKey extends PureComponent {
      * 选好要添加的属性
      */
     onSelectProp=(v,option)=>{
-        this.props.dispatch({
-            type:'propSet/selectProp',
-            payload:{
-                propkey:{
-                    id:v,
-                    name:option.props.children
+        
+            this.props.dispatch({
+                type:'propSet/selectProp',
+                payload:{
+                    propkey:{
+                        id:v,
+                        name:option.props.children
+                    }
                 }
-            }
-        });
+            });
+        
     };
     /**
      * 根据选中的属性，添加到属性集合
@@ -322,7 +324,8 @@ class EditPropKey extends PureComponent {
             notification.warn({
                 message: '温馨提示',
                 description: '请先选择要追加的属性',
-            })
+            });
+            return;
         }
         const s = _.find(currentSet.propkeyList,(e)=>{
             return e.propkeyId == selectedPropKey.id;

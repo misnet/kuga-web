@@ -1,18 +1,17 @@
 import React, { Fragment } from 'react';
 import { Link, Redirect, Switch, Route } from 'dva/router';
 import DocumentTitle from 'react-document-title';
-import { Icon } from 'antd';
+import { Icon, Row, Col } from 'antd';
+import classNames from 'classnames';
 import GlobalFooter from '@/components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '@/assets/logo.svg';
+import logo from '@/assets/logo.png';
 import config from '../config';
-const links = [
-
-];
+const links = [];
 
 const copyright = (
   <Fragment>
-    Copyright <Icon type="copyright" /> 2018 Depoga出品
+    Copyright <Icon type="copyright" /> 2018 Depoga 出品
   </Fragment>
 );
 
@@ -32,18 +31,20 @@ class UserLayout extends React.PureComponent {
       <DocumentTitle title={'Kuga'}>
         <div className={styles.container}>
           <div className={styles.content}>
-            <div className={styles.top}>
-              <div className={styles.header}>
-                <Link to="/">
-                  <img alt="logo" className={styles.logo} src={logo} />
-                  <span className={styles.title}>Kuga OpenAPI Web</span>
-                </Link>
+            <div className={classNames(styles.loginColumn,styles.loginForm)}>
+              <div className={styles.top}>
+                <div className={styles.header}>
+                  <Link to="/">
+                    <img alt="logo" className={styles.logo} src={logo} />
+                    <span className={styles.title}>Depoga Print on-demand</span>
+                  </Link>
+                </div>
               </div>
-              <div className={styles.desc}>Kuga OpenAPI Web</div>
-            </div>
               {this.props.children}
+              <GlobalFooter className={styles.footer} links={links} copyright={copyright} />
+            </div>
+            <div className={classNames(styles.loginColumn,styles.loginBg)}></div>
           </div>
-          <GlobalFooter links={links} copyright={copyright} />
         </div>
       </DocumentTitle>
     );

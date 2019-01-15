@@ -28,7 +28,7 @@ class ListProducts extends PureComponent {
       },
     });
   }
-  onSearch=(limit)=>{
+  onSearch=(limit,page=1)=>{
     let pageSize = this.refs['productTable'].props.pagination.pageSize;
     if(limit==undefined){
       limit = pageSize;
@@ -37,7 +37,7 @@ class ListProducts extends PureComponent {
     this.props.dispatch({
       type: 'product/list',
       payload: {
-        page: 1,
+        page: page,
         limit:limit,
         isOnline:values.isOnline,
         keyword:values.keyword===undefined?'':values.keyword
@@ -45,7 +45,7 @@ class ListProducts extends PureComponent {
     });
   }
   onTableListChange=(pagination)=>{
-    this.onSearch()
+    this.onSearch(pagination.limit,pagination.current)
     // this.props.dispatch({
     //   type: 'product/list',
     //   payload: {

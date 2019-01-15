@@ -7,9 +7,9 @@ import { connect } from 'dva';
 import { routerRedux } from 'dva/router';
 import { formatMessage } from 'umi/locale';
 
-import styles from '../../common.less';
+import styles from '../common.less';
 //import PageHeaderLayout from '../../../layouts/PageHeaderLayout'
-import PageHeaderWrapper from '../../../components/PageHeaderWrapper';
+import PageHeaderWrapper from '../../components/PageHeaderWrapper';
 
 @connect(({itemCatalog, propKey, loading}) => ({
     propKey,
@@ -60,7 +60,7 @@ class PropNameList extends PureComponent {
           type: 'propKey/listProps',
           payload: {
             limit: pagination.pageSize,
-            page: 1,
+            page: pagination.current,
           },
         });
       }
