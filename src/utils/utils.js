@@ -249,3 +249,6 @@ export function regionArrayToObject(regionArray){
     }
     return data;
 }
+export function getRandNumber(minNum=1,maxNum=10){
+    return Math.floor(Math.random()*maxNum+minNum);
+}

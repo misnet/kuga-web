@@ -7,6 +7,7 @@ import GlobalFooter from '@/components/GlobalFooter';
 import styles from './UserLayout.less';
 import logo from '@/assets/logo.png';
 import config from '../config';
+import {getRandNumber} from '../utils/utils';
 const links = [];
 
 const copyright = (
@@ -25,8 +26,17 @@ class UserLayout extends React.PureComponent {
     }
     return title;
   }
+  getBackgroundImageIndex(){
+    let bgIndex = window.sessionStorage.getItem('bgindex');
+    if(!bgIndex){
+      bgIndex = getRandNumber(1,7);
+      window.sessionStorage.setItem('bgindex',bgIndex);
+    }
+    return bgIndex;
+  }
   render() {
     const { routerData, match } = this.props;
+    const bgIndex = this.getBackgroundImageIndex();
     return (
       <DocumentTitle title={'Kuga'}>
         <div className={styles.container}>
@@ -43,7 +53,7 @@ class UserLayout extends React.PureComponent {
               {this.props.children}
               <GlobalFooter className={styles.footer} links={links} copyright={copyright} />
             </div>
-            <div className={classNames(styles.loginColumn,styles.loginBg)}></div>
+            <div className={classNames(styles.loginColumn,styles.loginBg,styles['bg'+bgIndex])}></div>
           </div>
         </div>
       </DocumentTitle>
