@@ -144,6 +144,24 @@ export default {
         }
     },
     reducers: {
+        emptyCurrentProduct(state){
+            return {
+                ...state,
+                currentProduct:{
+                    id:0,
+                    skuList:[],
+                    propList:[],
+                    imgList:[],
+                    title:'',
+                    sellerPoint:'',
+                    listingPrice:'',
+                    originalBarcode:'',
+                    barcode:'',
+                    sortWeight:0,
+                    isOnline:1
+                }
+            }
+        },
         /**
          * 设置当前商品
          * @param {*} state 

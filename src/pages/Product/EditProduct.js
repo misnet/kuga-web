@@ -107,6 +107,9 @@ class EditProduct extends PureComponent {
       });
     } else if (params['propsetId'] && catalogId > 0) {
       this.loadPropset(params['propsetId']);
+      this.props.dispatch({
+        type:'product/emptyCurrentProduct'
+      });
     } else {
       //跳到选择品类界面
       this.props.dispatch(routerRedux.replace('/product/select-catalog'));
