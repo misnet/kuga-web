@@ -1,5 +1,5 @@
 import { queryNotices } from '@/services/api';
-import {queryOssSetting,regionList} from '@/services/common';
+import {queryOssSetting,regionList,sendVerifyCode} from '@/services/common';
 /**
  * 给指定路径的地区对象赋值子节点列表
  * @param {*} regionList 地区列表
@@ -136,6 +136,17 @@ export default {
                 },
             });
         },
+        /**
+         * 
+         * @param {*} param0 
+         * @param {*} param1 
+         */
+        * sendVerifySms({payload,callback},{call}){
+            const response = yield call(sendVerifyCode,payload);
+            if(response.status === 0 && typeof callback === 'function'){
+                callback(response.data);
+            }
+        }
     },
 
     reducers: {

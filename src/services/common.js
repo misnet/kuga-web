@@ -25,3 +25,13 @@ export async function regionList(params) {
         body: params,
     });
 }
+/**
+ * 发验证码短信或邮件
+ * @param {*} params 
+ */
+export async function sendVerifyCode(params){
+    return request(APILIST.COMMON.SEND_VERIFY_CODE,{
+        method:'POST',
+        body:params
+    })
+}

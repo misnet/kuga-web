@@ -6,7 +6,12 @@
 export default {
     COMMON:{
         OSSETTING:'common.osssetting',
-        REGION_LIST:'common.region.list'
+        REGION_LIST:'common.region.list',
+        SEND_VERIFY_CODE:'common.smscode.send'
+    },
+    FRONTEND:{
+        //前台用户注册
+        USER_REGISTER:'user.register',
     },
     BACKEND: {
         // 用户登陆

@@ -1,8 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'dva';
 import { Link } from 'umi/link';
-import { Input, Alert, Button,Form,Row,Col } from 'antd';
+import { Input, Alert, Button,Form,Row,Col, Divider } from 'antd';
+import LoginComponent from './components/Login';
 import styles from './Login.less';
+import { routerRedux } from 'dva/router';
 
 
 @connect(({ login, loading }) => ({
@@ -10,15 +12,7 @@ import styles from './Login.less';
   submitting: loading.effects['login/login'],
 }))
 class LoginPage extends Component {
-  state = {
-    type: 'account',
-    autoLogin: true,
-  };
-
-  onTabChange = type => {
-    this.setState({ type });
-  };
-
+  
   handleSubmit = (e) => {
      e.preventDefault();
       this.props.form.validateFields(['user','password'], { force: true }, (err, values) => {
@@ -32,50 +26,19 @@ class LoginPage extends Component {
           }
       });
   };
-
-  renderMessage = content => {
-    return <Alert style={{ marginBottom: 24 }} message={content} type="error" showIcon />;
-  };
-
+  onShowRegister=()=>{
+      this.props.dispatch(routerRedux.replace('/user/register'));
+  }
   render() {
-    const { login, submitting } = this.props;
-    const { type } = this.state;
-      const { getFieldDecorator } = this.props.form;
     return (
       <div className={styles.main}>
-                    <Form onSubmit={this.handleSubmit}>
-                    {login.loginStatus === 'error' &&
-                    login.type === 'account' &&
-                    !login.submitting &&
-                    this.renderMessage('账户或密码错误')}
-                    <Form.Item>
-                        {
-                            getFieldDecorator('user',{
-                                rules:[{
-                                    required:true,
-                                    message:'请输入用户名'
-                                }]
-                            })(
-                                <Input placeholder={"用户名"} size="large"/>
-                            )
-                        }
-                    </Form.Item>
-                    <Form.Item>
-                        {
-                            getFieldDecorator('password',{
-                                rules:[{
-                                    required:true,
-                                    message:'请输入密码'
-                                }]
-                            })(
-                                <Input type="password" size="large" placeholder={"请输入密码"} />
-                            )
-                        }
-                    </Form.Item>
-                    <Form.Item>
-                        <Button size="large" className={styles.submit}  type="primary" htmlType="submit">登陆</Button>
-                    </Form.Item>
-                </Form>
+            <LoginComponent
+            loginStatus={this.props.login.loginStatus}
+            submitting={this.props.submitting}
+            onSubmit={this.handleSubmit}
+            form={this.props.form}
+            onShowRegister={this.onShowRegister}
+            />
       </div>
     );
   }

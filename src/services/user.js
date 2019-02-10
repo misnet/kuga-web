@@ -97,3 +97,12 @@ export async function changePasswd(params){
     body:params
   })
 }
+/**
+ * 用户注册
+ */
+export async function registerUser(params){
+  return request(APILIST.FRONTEND.USER_REGISTER,{
+    method:'POST',
+    body:params
+  })
+}

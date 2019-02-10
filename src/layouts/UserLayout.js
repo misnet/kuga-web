@@ -5,7 +5,7 @@ import { Icon, Row, Col } from 'antd';
 import classNames from 'classnames';
 import GlobalFooter from '@/components/GlobalFooter';
 import styles from './UserLayout.less';
-import logo from '@/assets/logo.png';
+
 import config from '../config';
 import {getRandNumber} from '../utils/utils';
 const links = [];
@@ -41,19 +41,11 @@ class UserLayout extends React.PureComponent {
       <DocumentTitle title={'Kuga'}>
         <div className={styles.container}>
           <div className={styles.content}>
-            <div className={classNames(styles.loginColumn,styles.loginForm)}>
-              <div className={styles.top}>
-                <div className={styles.header}>
-                  <Link to="/">
-                    <img alt="logo" className={styles.logo} src={logo} />
-                    <span className={styles.title}>Depoga Print on-demand</span>
-                  </Link>
-                </div>
-              </div>
+            <div className={classNames(styles.mainColumn,styles.mainForm)}>
               {this.props.children}
               <GlobalFooter className={styles.footer} links={links} copyright={copyright} />
             </div>
-            <div className={classNames(styles.loginColumn,styles.loginBg,styles['bg'+bgIndex])}></div>
+            <div className={classNames(styles.mainColumn,styles.leftBg,styles['bg'+bgIndex])}></div>
           </div>
         </div>
       </DocumentTitle>

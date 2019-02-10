@@ -1,4 +1,4 @@
-import { queryUsers, queryCurrent, createUser, updateUser, deleteUser, changePasswd } from '../services/user';
+import { queryUsers, queryCurrent, createUser, updateUser, deleteUser, changePasswd,registerUser } from '../services/user';
 
 export default {
   namespace: 'user',
@@ -17,6 +17,14 @@ export default {
   },
 
   effects: {
+    * register({payload,callback},{put,call}){
+      const response = yield call(registerUser,payload);
+      if(response.status === 0){
+        if(typeof callback === 'function'){
+          callback(true);
+        }
+      }
+    },
     * changePassword({payload,callback},{call,put}){
       const response  = yield call(changePasswd,payload);
       if(response.status === 0){
@@ -28,7 +36,7 @@ export default {
     //创建
     * create ({payload}, {call, put}) {
       const response = yield call(createUser, payload);
-      if (response.status == 0) {
+      if (response.status === 0) {
         yield put({
           type: 'hideModal',
         });
