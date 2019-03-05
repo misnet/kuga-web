@@ -84,7 +84,6 @@ const menuData = [
         name: '角色管理',
         path: 'rolelist',
         hideInMenu: true,
-        authority: 'common',
         hideChildrenInMenu:true,
         children:[
           {

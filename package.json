@@ -27,7 +27,7 @@
     "@ckeditor/ckeditor5-build-classic": "^11.2.0",
     "@ckeditor/ckeditor5-react": "^1.1.0",
     "ant-design-pro": "^2.1.1",
-    "antd": "^3.11.6",
+    "antd": "^3.13.5",
     "braft-editor": "^2.2.0",
     "braft-extensions": "^0.0.13",
     "classnames": "^2.2.6",

@@ -67,7 +67,6 @@ const getRedirect = item => {
     }
 };
 const { menuList } = getUserProfile();
-//console.log('menuList', menuList);
 const menuData = getMenuData(menuList);
 menuData.forEach(getRedirect);
 
